@@ -348,29 +348,29 @@
     app.innerHTML = `
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-label">Gesamtaufrufe</div>
+          <div class="stat-label">Views</div>
           <div class="stat-value">${fmt(data.total_views)}</div>
           <div class="stat-sub">${data.total_views.toLocaleString('de-DE')} Klicks total</div>
         </div>
         <div class="stat-card" style="animation-delay:0.05s">
-          <div class="stat-label">Videos geschnitten</div>
+          <div class="stat-label">Edited videos</div>
           <div class="stat-value">${data.video_count}</div>
-          <div class="stat-sub">auf verschiedenen Kanälen</div>
+          <div class="stat-sub">for different channels</div>
         </div>
         <div class="stat-card" style="animation-delay:0.1s">
-          <div class="stat-label">Ø Aufrufe pro Video</div>
+          <div class="stat-label">Ø views per video</div>
           <div class="stat-value">${fmt(Math.round(data.total_views / data.video_count))}</div>
-          <div class="stat-sub">Durchschnitt</div>
+          <div class="stat-sub">avg</div>
         </div>
         <div class="stat-card" style="animation-delay:0.15s">
-          <div class="stat-label">Gesamte Likes</div>
+          <div class="stat-label">Likes</div>
           <div class="stat-value">${fmt(data.total_likes)}</div>
-          <div class="stat-sub">über alle Videos</div>
+          <div class="stat-sub">sum of all videos</div>
         </div>
       </div>
 
       <div class="section-header">
-        <div class="section-title">ALLE VIDEOS</div>
+        <div class="section-title">ALL VIDEOS</div>
       </div>
       <div class="video-list">
         ${data.videos.map((v, i) => `
