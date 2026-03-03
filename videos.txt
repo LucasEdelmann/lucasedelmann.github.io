@@ -2,6 +2,10 @@
 # Zeilen die mit # beginnen werden ignoriert
 
 # --- Beispiel-Links (ersetzen mit deinen echten Videos) ---
-https://www.youtube.com/watch?v=BEISPIEL_ID_1
-https://www.youtube.com/watch?v=BEISPIEL_ID_2
-https://youtu.be/BEISPIEL_ID_3
+https://www.youtube.com/watch?v=wU96k22mIIg
+https://www.youtube.com/watch?v=Wnh9mF_BpWo
+https://www.youtube.com/watch?v=LDCh64Oa1Qc
+https://www.youtube.com/watch?v=8PBH2pOirtY
+https://www.youtube.com/watch?v=QO9zoCgnXBI
+https://www.youtube.com/watch?v=9PQmd_aoRWA
+https://www.youtube.com/watch?v=BMeng7nkRYs
