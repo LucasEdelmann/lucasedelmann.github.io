@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CutStats – Meine Videoschnitt-Statistiken</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111113;
+    --surface2: #18181c;
+    --border: #222228;
+    --accent: #ff3c3c;
+    --accent2: #ff8c42;
+    --text: #f0f0f2;
+    --muted: #6b6b78;
+    --green: #2dce71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 10%, rgba(255,60,60,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,140,66,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header {
+    padding: 40px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo { display: flex; align-items: center; gap: 12px; }
+
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+
+  .logo-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .logo-text p {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .last-update {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* Loading & Error states */
+  .state-box {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--muted);
+  }
+  .state-box .icon { font-size: 48px; margin-bottom: 16px; display: block; }
+  .state-box p { font-size: 14px; line-height: 1.7; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+    transition: border-color 0.3s;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .stat-card:hover::after { opacity: 1; }
+  .stat-card:hover { border-color: #333340; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 1px;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--text) 60%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--green);
+    margin-top: 6px;
+  }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+
+  /* Video List */
+  .video-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 48px; }
+
+  .video-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 40px 80px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.25s;
+    animation: fadeUp 0.5s ease both;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .video-card:hover {
+    border-color: #333340;
+    background: var(--surface2);
+    transform: translateX(4px);
+  }
+
+  .video-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--border);
+    text-align: center;
+    line-height: 1;
+  }
+
+  .video-rank.top { color: var(--accent); }
+
+  .video-thumb {
+    width: 80px; height: 45px;
+    border-radius: 8px;
+    background: var(--surface2);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .thumb-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #1a1a20, #222230);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .video-info h3 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .video-meta { display: flex; gap: 12px; font-size: 11px; color: var(--muted); }
+
+  .video-views { text-align: right; }
+
+  .views-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+
+  .views-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .video-card { grid-template-columns: 32px 1fr auto; }
+    .video-thumb { display: none; }
+    .stat-value { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">✂️</div>
+        <div class="logo-text">
+          <h1>CutStats</h1>
+          <p>Meine geschnittenen Videos</p>
+        </div>
+      </div>
+      <div class="last-update">
+        <div class="live-dot"></div>
+        Aktualisiert: <span id="updateTime">–</span>
+      </div>
+    </div>
+  </header>
+
+  <div id="app">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <p>Lade Daten…</p>
+    </div>
+  </div>
+
+  <footer>
+    CutStats &nbsp;·&nbsp; Daten via YouTube Data API v3 &nbsp;·&nbsp; Täglich automatisch aktualisiert
+  </footer>
+</div>
+
+<script>
+  // ── KONFIGURATION ────────────────────────────────────────────────
+  // Passe diese URL an deinen GitHub-Benutzernamen und Repository-Namen an:
+  const DATA_URL = 'https://raw.githubusercontent.com/DEIN-USERNAME/DEIN-REPO/main/data.json';
+  // ────────────────────────────────────────────────────────────────
+
+  function fmt(n) {
+    if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.', ',') + ' Mio.';
+    if (n >= 1e3) return Math.round(n / 1e3) + 'K';
+    return n.toLocaleString('de-DE');
+  }
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function render(data) {
+    // Update timestamp
+    document.getElementById('updateTime').textContent = fmtDate(data.last_updated);
+
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Gesamtaufrufe</div>
+          <div class="stat-value">${fmt(data.total_views)}</div>
+          <div class="stat-sub">${data.total_views.toLocaleString('de-DE')} Klicks total</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.05s">
+          <div class="stat-label">Videos geschnitten</div>
+          <div class="stat-value">${data.video_count}</div>
+          <div class="stat-sub">auf verschiedenen Kanälen</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.1s">
+          <div class="stat-label">Ø Aufrufe pro Video</div>
+          <div class="stat-value">${fmt(Math.round(data.total_views / data.video_count))}</div>
+          <div class="stat-sub">Durchschnitt</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.15s">
+          <div class="stat-label">Gesamte Likes</div>
+          <div class="stat-value">${fmt(data.total_likes)}</div>
+          <div class="stat-sub">über alle Videos</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">ALLE VIDEOS</div>
+      </div>
+      <div class="video-list">
+        ${data.videos.map((v, i) => `
+          <a class="video-card" href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener"
+             style="animation-delay:${i * 0.04}s">
+            <div class="video-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
+            <div class="video-thumb">
+              <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"
+                   onerror="this.parentNode.innerHTML='<div class=\\'thumb-placeholder\\'>▶</div>'"
+                   loading="lazy">
+            </div>
+            <div class="video-info">
+              <h3>${v.title}</h3>
+              <div class="video-meta">
+                <span>📺 ${v.channel}</span>
+                <span>📅 ${fmtDate(v.published)}</span>
+              </div>
+            </div>
+            <div class="video-views">
+              <div class="views-number">${fmt(v.views)}</div>
+              <div class="views-label">Aufrufe</div>
+            </div>
+          </a>`).join('')}
+      </div>`;
+  }
+
+  // Daten laden
+  fetch(DATA_URL)
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.json();
+    })
+    .then(render)
+    .catch(err => {
+      document.getElementById('app').innerHTML = `
+        <div class="state-box">
+          <span class="icon">⚠️</span>
+          <p>Daten konnten nicht geladen werden.<br>
+          Stelle sicher, dass <code>data.json</code> im GitHub-Repo vorhanden ist<br>
+          und die DATA_URL in dieser Datei korrekt gesetzt ist.</p>
+        </div>`;
+      console.error(err);
+    });
+</script>
+</body>
+</html>
