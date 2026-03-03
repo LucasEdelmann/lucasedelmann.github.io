@@ -1,0 +1,7 @@
+# Hier trägst du deine YouTube-Links ein (einen pro Zeile)
+# Zeilen die mit # beginnen werden ignoriert
+
+# --- Beispiel-Links (ersetzen mit deinen echten Videos) ---
+https://www.youtube.com/watch?v=BEISPIEL_ID_1
+https://www.youtube.com/watch?v=BEISPIEL_ID_2
+https://youtu.be/BEISPIEL_ID_3
