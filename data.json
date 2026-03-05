@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-04T06:52:59Z",
-  "total_views": 7039,
-  "total_likes": 270,
+  "last_updated": "2026-03-05T06:56:59Z",
+  "total_views": 7159,
+  "total_likes": 272,
   "video_count": 7,
   "videos": [
     {
@@ -9,15 +9,15 @@
       "title": "10X statt Chatbot: So nutzt du Antigravity richtig",
       "channel": "Mike Mildenberger",
       "published": "2026-01-17",
-      "views": 5008,
-      "likes": 177
+      "views": 5042,
+      "likes": 178
     },
     {
       "id": "BMeng7nkRYs",
       "title": "Infisical: a Complete Guide to Secrets Management",
       "channel": "Infisical",
       "published": "2026-01-30",
-      "views": 1337,
+      "views": 1365,
       "likes": 34
     },
     {
@@ -25,15 +25,15 @@
       "title": "GitHub Actions Secrets Management with Infisical",
       "channel": "Infisical",
       "published": "2026-02-03",
-      "views": 221,
-      "likes": 18
+      "views": 227,
+      "likes": 19
     },
     {
       "id": "QO9zoCgnXBI",
       "title": "Secrets Management in Kubernetes: Foundations",
       "channel": "Infisical",
       "published": "2026-02-09",
-      "views": 187,
+      "views": 188,
       "likes": 15
     },
     {
@@ -41,7 +41,7 @@
       "title": "What’s New at Infisical — January 2026 Updates",
       "channel": "Infisical",
       "published": "2026-02-11",
-      "views": 122,
+      "views": 125,
       "likes": 10
     },
     {
@@ -49,7 +49,7 @@
       "title": "Sealed Secrets Explained: Secure Kubernetes Secrets the Right Way",
       "channel": "Infisical",
       "published": "2026-02-18",
-      "views": 120,
+      "views": 121,
       "likes": 12
     },
     {
@@ -57,7 +57,7 @@
       "title": "External Secrets Operator Explained (ESO) | Kubernetes Secrets Made Simple",
       "channel": "Infisical",
       "published": "2026-03-03",
-      "views": 44,
+      "views": 91,
       "likes": 4
     }
   ]
