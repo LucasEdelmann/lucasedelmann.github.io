@@ -3,30 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imprint</title>
+    <title>Imprint | Lucas Edelmann</title>
+    <meta name="description" content="Legal notice and imprint information">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8b8;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.5);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #eff1f5;
-            --card: #FFFFFF;
-            --primary: #5c5f77;
-            --secondary: #7287fd;
-            --accent: #EC4899;
-            --dark: #1E293B;
-            --text: #334155;
-            --light-purple: #F3F4F6;
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background: var(--bg);
+        /* Light Rays Background */
+        .light-rays-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .light-ray {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--accent-glow) 50%,
+                transparent 100%
+            );
+            opacity: 0;
+            animation: rayMove 8s ease-in-out infinite;
+        }
+
+        .light-ray:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .light-ray:nth-child(2) { left: 25%; animation-delay: 1.5s; }
+        .light-ray:nth-child(3) { left: 40%; animation-delay: 3s; }
+        .light-ray:nth-child(4) { left: 55%; animation-delay: 4.5s; }
+        .light-ray:nth-child(5) { left: 70%; animation-delay: 6s; }
+        .light-ray:nth-child(6) { left: 85%; animation-delay: 7.5s; }
+
+        @keyframes rayMove {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%) scaleY(0.3);
+            }
+            10% {
+                opacity: 0.4;
+                transform: translateY(-80%) scaleY(0.6);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(0%) scaleY(1);
+            }
+            90% {
+                opacity: 0.4;
+                transform: translateY(80%) scaleY(0.6);
+            }
+        }
+
+        /* Glowing Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: -250px;
+            right: -250px;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-light);
+            bottom: -200px;
+            left: -200px;
+            animation: float2 15s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, 100px) scale(1.1); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, -100px) scale(1.2); }
+        }
+
+        /* Content Layer */
+        .content-layer {
+            position: relative;
+            z-index: 1;
         }
 
         /* Navigation */
@@ -34,376 +138,153 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: #4c4f69;
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 0px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
+            padding: 1.5rem 2rem;
         }
 
         nav a {
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         nav a:hover {
-            color: var(--primary);
-        }
-        
-
-        /* Hero Section */
-        .hero {
-            min-height: 37vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 1rem;
-            background: #7c7f93;
-            color: white;
-            border-radius: 15px;
-            margin-top: 4rem;
-        }
-        
-        .hero2 {
-             min-height: 17vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 1rem;
-            background: #7c7f93;
-            color: white;
-            border-radius: 15px;
-            margin-top: 4rem;
+            color: var(--accent-light);
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            margin-bottom: 0.8rem;
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .imprint-card {
+            background: rgba(26, 26, 46, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem 0;
+            color: var(--accent-light);
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        strong {
+            color: var(--text-primary);
             font-weight: 700;
         }
 
-        .hero .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            margin-bottom: 1.5rem;
-            color: white;
-            font-weight: 300;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .cta-button {
-            background: white;
-            color: var(--secondary);
-            padding: 0.9rem 2.2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: all 0.3s;
+        a {
+            color: var(--accent-light);
             text-decoration: none;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .cta-button:hover {
-            background: var(--light-purple);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        /* Sections */
-        section {
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        section h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 2rem;
-            text-align: center;
-            color: var(--dark);
-        }
-        
-        #imprint {
-  text-align: center;
-}
-
-        /* Client Showcase */
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .client-card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .client-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .client-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            color: white;
-            font-weight: bold;
-        }
-
-        .client-info h3 {
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
-        }
-
-        .client-info p {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .project-card {
-            background: var(--card);
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: all 0.3s;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-        }
-
-        .project-card h3 {
-            color: var(--dark);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .project-card p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .tag {
-            background: var(--light-purple);
-            color: #df8e1d;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .project-link {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .project-link:hover {
-            color: var(--primary);
-        }
-
-        /* Resources Section */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .resource-item {
-            background: var(--card);
-            padding: 1.2rem;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .resource-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .resource-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .resource-info h3 {
-            color: var(--dark);
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .resource-info p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 3rem 2rem;
-            border-radius: 15px;
-            
-        }
-
-        .contact h2 {
-            color: white;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .client-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-       .client-status1 {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    background: rgba(34, 197, 94, 0.15);
-    border-radius: 20px;
-    color: #16a34a;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.client-status1::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-.client-status2 {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    background: rgba(234, 179, 8, 0.15);
-    border-radius: 20px;
-    color: #eab308;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.client-status2::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #eab308;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-        .contact-link {
+        a:hover {
             color: var(--accent);
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: color 0.3s;
         }
 
-        .contact-link:hover {
-            color: var(--primary);
+        .info-section {
+            background: rgba(15, 15, 35, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
         }
-        
-        .client-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
+
+        .info-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            min-width: 100px;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-light);
+            transform: translateY(-2px);
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -411,96 +292,107 @@
                 padding: 1rem;
             }
 
-            nav ul {
-                gap: 1rem;
+            .main-content {
+                padding: 6rem 1rem 3rem;
             }
 
-            section {
-                padding: 2rem 1.5rem;
+            .imprint-card {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
             }
         }
-        
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="/index">Home</a></li>
-            
-        </ul>
-    </nav>
+    <!-- Light Rays Background -->
+    <div class="light-rays-container">
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+    </div>
 
-<!-- Hero section -->
-  <section id="home" class="hero2">
-  <h1>Legal Notice (Imprint)</h1>
-  <p class="tagline">Information in accordance with Section 5 of the German Digital Services Act<br>
-      (Digitale-Dienste-Gesetz – DDG)</p>
-    </section>
-    
-   
-    <!-- Imprint Section -->
-    <section id="imprint">
-        
-      <h2>Service Provider</h2>
-      <p class="project-link">
-        Lucas Edelmann
-      </p><br>
-      <p>Registered Address:</p>
-      <p class="project-link">
-        Zum Bahnhof 26<br>
-		39638 Gardelegen<br>
-		Germany
-      </p><br>
- 
-      <h2>Contact</h2>
+    <!-- Glowing Orbs -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
 
-      <p>
-        Phone: <br><a href="tel:[Phone Number]" class="project-link">[not currently existing]</a><br>
-        Email: <br><a href="mailto:business.edelmann@outlook.com" class="project-link">business.edelmann@outlook.com</a><br>
-        Website: <br><a href="/index" class="project-link">lucasedelmann.com</a>
-      </p><br>
-    
+    <!-- Content Layer -->
+    <div class="content-layer">
+        <!-- Navigation -->
+        <nav>
+            <a href="/">
+                ← Back to Home
+            </a>
+        </nav>
 
-  
-      <h2>Identification Number</h2>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="imprint-card">
+                    <h1>Legal Notice (Imprint)</h1>
+                    <p class="subtitle">Information in accordance with Section 5 of the German Digital Services Act (Digitale-Dienste-Gesetz – DDG)</p>
 
-      <p>
-        Economic Identification Number pursuant to Section 139c of the German Fiscal Code (AO):<br>
-        <a class="project-link">[Not currently used in business transactions]</a>
-      </p>
-  
-        
-        
-    </section>
+                    <h2>Service Provider</h2>
+                    <div class="info-section">
+                        <p><strong>Lucas Edelmann</strong></p>
+                        <p style="margin-top: 1rem;"><strong>Registered Address:</strong><br>
+                        Zum Bahnhof 26<br>
+                        39638 Gardelegen<br>
+                        Germany</p>
+                    </div>
 
-    <!-- Contact -->
-    <section class="contact" id="contact">
-        
-        <p style="margin-top: 1rem; font-size: 1.1rem;">This legal notice also applies to the following online presences:</p>
-        <div class="contact-links">
-            <a href="mailto:business.edelmann@outlook.com" class="contact-link">Email</a>
-            <a href="https://github.com/LucasEdelmann" class="contact-link">GitHub</a>
-            <a href="https://www.upwork.com/freelancers/~014676528e3f6613b0?mp_source=share" class="contact-link">Upwork</a>
-            <a href="/imprint" class="contact-link">Imprint</a>
-        </div>
-    </section>
+                    <h2>Contact</h2>
+                    <div class="info-section">
+                        <div class="info-row">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value">[not currently existing]</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value"><a href="mailto:business.edelmann@outlook.com">business.edelmann@outlook.com</a></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Website:</span>
+                            <span class="info-value"><a href="/">lucasedelmann.github.io</a></span>
+                        </div>
+                    </div>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+                    <h2>Identification Number</h2>
+                    <p>Economic Identification Number pursuant to Section 139c of the German Fiscal Code (AO):<br>
+                    <strong>[Not currently used in business transactions]</strong></p>
+
+                    <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        This legal notice also applies to the following online presences:
+                    </p>
+
+                    <div class="footer-links">
+                        <a href="mailto:business.edelmann@outlook.com" class="footer-link">Email</a>
+                        <a href="https://github.com/LucasEdelmann" class="footer-link">GitHub</a>
+                        <a href="https://www.upwork.com/freelancers/~014676528e3f6613b0?mp_source=share" class="footer-link">Upwork</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
