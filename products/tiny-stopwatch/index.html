@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Stopwatch - Minimalist macOS Menubar Timer</title>
+    <meta name="description" content="A lightweight, elegant stopwatch that lives in your macOS menu bar. No clutter, just time.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.5; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            margin: 0 auto 2rem;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        /* CTA Button */
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0, 255, 136, 0.5);
+            background: var(--text-primary);
+        }
+
+        .price-tag {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .price-tag strong {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 6rem 2rem;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .screenshot-placeholder {
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--border));
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all 0.3s;
+        }
+
+        .screenshot-placeholder:hover {
+            transform: scale(1.02);
+            border-color: var(--accent);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3rem;
+            height: 3rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .step h3 {
+            font-family: 'Syne', sans-serif;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 2rem;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent);
+        }
+
+        .faq-item h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .faq-item p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Polar Checkout Integration Note */
+        .integration-note {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .integration-note code {
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .features-grid,
+            .screenshot-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                padding-left: 3.5rem;
+            }
+
+            .step-number {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="https://lucasedelmann.github.io" class="back-link">
+            ← Back to Portfolio
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="app-icon">⏱</div>
+            <h1>Tiny Stopwatch</h1>
+            <p class="tagline">The most elegant way to track time on macOS.<br>Lives in your menu bar. Nothing more, nothing less.</p>
+            
+            <div class="cta-container">
+                <!-- REPLACE THIS BUTTON WITH YOUR POLAR CHECKOUT LINK -->
+                <a href="#" class="cta-button" id="polar-checkout-button">
+                    Get Tiny Stopwatch →
+                </a>
+                <p class="price-tag">One-time payment • <strong>€1.99</strong></p>
+                
+                <div class="integration-note">
+                    📝 <strong>Setup Instructions:</strong><br>
+                    Replace <code>href="#"</code> with your Polar checkout URL<br>
+                    Format: <code>https://polar.sh/checkout/YOUR_PRODUCT_ID</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Designed for Simplicity</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡️</span>
+                    <h3>Ultra Lightweight</h3>
+                    <p>Pure Swift. No dependencies. No bloat. Just a tiny binary that does one thing perfectly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Menu Bar Native</h3>
+                    <p>Lives where you need it. No dock icon. No windows. Just time, always visible in your menu bar.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🖱</span>
+                    <h3>Intuitive Controls</h3>
+                    <p>Click to start/stop. Double-click to reset. Right-click to quit. That's it. No learning curve.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">⏱</span>
+                    <h3>Precise Timing</h3>
+                    <p>Updates 10 times per second. Hours, minutes, seconds format. Accurate to the millisecond.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Minimal Design</h3>
+                    <p>Clean, distraction-free interface that matches macOS perfectly. You'll forget it's even there.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3>Privacy First</h3>
+                    <p>No tracking. No analytics. No internet connection. Your time is yours alone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">See It In Action</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">📸</div>
+                <div class="screenshot-placeholder">⏱️</div>
+                <div class="screenshot-placeholder">✨</div>
+            </div>
+            <p style="text-align: center; color: var(--text-secondary); margin-top: 2rem; font-size: 0.9rem;">
+                Replace these placeholders with actual screenshots of your app
+            </p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Download & Install</h3>
+                    <p>Purchase once, download the app, and drag it to your Applications folder. No account needed.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Launch</h3>
+                    <p>Open Tiny Stopwatch and it appears in your menu bar instantly. No setup, no configuration.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Start Tracking</h3>
+                    <p>Click to start timing. Double-click to reset. Right-click to quit. It's that simple.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Questions?</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>What macOS version do I need?</h3>
+                    <p>Tiny Stopwatch requires macOS 10.15 (Catalina) or later. It works perfectly on Apple Silicon and Intel Macs.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Is this a subscription?</h3>
+                    <p>Nope! One-time payment of €1.99. Buy it once, use it forever. No recurring charges, no hidden fees.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Can I customize the appearance?</h3>
+                    <p>Currently, Tiny Stopwatch uses a clean, minimal design that matches macOS. Custom themes may come in future updates!</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Does it work without internet?</h3>
+                    <p>Absolutely! Tiny Stopwatch is 100% offline. No internet connection required, no data collected.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Can I get a refund?</h3>
+                    <p>If you're not satisfied, contact me within 14 days for a full refund. No questions asked.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to simplify time tracking?</h2>
+            <p class="tagline" style="margin-bottom: 2rem;">Join users who've already made the switch.</p>
+            
+            <!-- REPLACE THIS BUTTON WITH YOUR POLAR CHECKOUT LINK -->
+            <a href="#" class="cta-button" id="polar-checkout-button-2">
+                Get Tiny Stopwatch for €1.99 →
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ⚡️ by <a href="https://lucasedelmann.github.io">Lucas Edelmann</a></p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://lucasedelmann.github.io/imprint">Imprint</a> • 
+            <a href="mailto:business.edelmann@outlook.com">Support</a> • 
+            <a href="https://github.com/LucasEdelmann">GitHub</a>
+        </p>
+    </footer>
+
+    <!-- Polar Checkout Script (Optional - for embedded checkout) -->
+    <script>
+        // OPTIONAL: If using Polar's embedded checkout instead of redirect
+        // Replace with your Polar product ID
+        // 
+        // Example:
+        // const polarProductId = 'YOUR_PRODUCT_ID';
+        // 
+        // document.querySelectorAll('.cta-button').forEach(button => {
+        //     button.addEventListener('click', (e) => {
+        //         e.preventDefault();
+        //         // Implement Polar checkout modal or redirect
+        //         window.location.href = `https://polar.sh/checkout/${polarProductId}`;
+        //     });
+        // });
+    </script>
+</body>
+</html>
