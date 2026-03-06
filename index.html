@@ -345,11 +345,21 @@
             color: var(--text-primary);
         }
 
-        .client-status {
+        .client-status-ongoing {
             display: inline-block;
             padding: 0.3rem 0.8rem;
             background: rgba(99, 102, 241, 0.2);
-            color: var(--accent-light);
+            color: #85BD2D;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .client-status-onhold {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: #DBCA23;
             border-radius: 8px;
             font-size: 0.8rem;
             margin-bottom: 1rem;
@@ -589,7 +599,7 @@
                     <div class="client-card">
                         <img src="images/infisical.jpg" alt="Infisical Logo" class="client-logo">
                         <h3>Infisical</h3>
-                        <span class="client-status">Ongoing</span>
+                        <span class="client-status-ongoing">Ongoing</span>
                         <p>Video editing for educational purposes and social media.</p>
                         <div class="client-links">
                             <a href="https://infisical.com" class="client-link">Website →</a>
@@ -600,7 +610,7 @@
                     <div class="client-card">
                         <img src="images/aibymike.jpg" alt="AIbyMike Logo" class="client-logo">
                         <h3>AIbyMike</h3>
-                        <span class="client-status">Ongoing</span>
+                        <span class="client-status-ongoing">Ongoing</span>
                         <p>Video editing for educational purposes and social media.</p>
                         <div class="client-links">
                             <a href="https://www.aibymike.de" class="client-link">Website →</a>
@@ -613,7 +623,7 @@
                             ✨
                         </div>
                         <h3>Coming soon</h3>
-                        <span class="client-status">On hold</span>
+                        <span class="client-status-onhold">On hold</span>
                         <p>Let us create something together.</p>
                         <div class="client-links">
                             <a href="#contact" class="client-link">Get in Touch →</a>
