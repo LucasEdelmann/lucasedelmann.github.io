@@ -138,6 +138,30 @@
         }
 
 
+        /* Glass Card Sections  */
+        .glass-section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+
         /* Client_reworked */
         .client_reworked-grid {
             display: grid;
@@ -459,17 +483,22 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <h1>lucas edelmann</h1>
+         <p class="tagline">Under construction!</p>
         <p class="tagline">I make pixels move</p>
         <a href="#clients" class="cta-button">See My Work</a>
     </section>
 
     <!-- Client Showcase -->
-
-<div class="client_reworked-grid">
-                    <div class="client_reworked-placeholder">📸</div>
-                    <div class="client_reworked-placeholder">⏱️</div>
-                    <div class="client_reworked-placeholder">✨</div>
+    <section class="glass-section">
+                <div class="container">
+                    <h2 class="section-title">See It In Action</h2>
+                        <div class="client_reworked-grid">
+                            <div class="client_reworked-placeholder">📸</div>
+                            <div class="client_reworked-placeholder">⏱️</div>
+                            <div class="client_reworked-placeholder">✨</div>
+                        </div>
                 </div>
+    </section>
 
 
 
