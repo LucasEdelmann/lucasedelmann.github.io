@@ -1,1 +1,842 @@
-code hier
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence Cutter</title>
+    <meta name="description" content="App that automatically removes silent sections from videos.">
+    <link rel="icon" type="image/x-icon" href="/images/silencecutter-favicon.ico" sizes="any">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8b8;
+            --accent: #C43F73;
+            --accent-light: #963BD8;
+            --accent-glow: rgba(181, 63, 164, 0.5);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Light Rays Background */
+        .light-rays-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .light-ray {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--accent-glow) 50%,
+                transparent 100%
+            );
+            opacity: 0;
+            animation: rayMove 8s ease-in-out infinite;
+        }
+
+        .light-ray:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .light-ray:nth-child(2) { left: 25%; animation-delay: 1.5s; }
+        .light-ray:nth-child(3) { left: 40%; animation-delay: 3s; }
+        .light-ray:nth-child(4) { left: 55%; animation-delay: 4.5s; }
+        .light-ray:nth-child(5) { left: 70%; animation-delay: 6s; }
+        .light-ray:nth-child(6) { left: 85%; animation-delay: 7.5s; }
+
+        @keyframes rayMove {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%) scaleY(0.3);
+            }
+            10% {
+                opacity: 0.4;
+                transform: translateY(-80%) scaleY(0.6);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(0%) scaleY(1);
+            }
+            90% {
+                opacity: 0.4;
+                transform: translateY(80%) scaleY(0.6);
+            }
+        }
+
+        /* Glowing Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: -250px;
+            left: -250px;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-light);
+            bottom: -200px;
+            right: -200px;
+            animation: float2 15s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, 100px) scale(1.1); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, -100px) scale(1.2); }
+        }
+
+        /* Content Layer */
+        .content-layer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-light);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-icon {
+            width: 140px;
+            height: 140px;
+            background: #CC2187;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 20px 60px var(--accent-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+        }
+
+        .app-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: #CC2187;
+            border-radius: 34px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(20px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, #ffffff, var(--accent-light), #ffffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Glossy CTA Button */
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: #ffffff;
+            padding: 1.3rem 3.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 20px 50px var(--accent-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.3),
+                0 25px 60px var(--accent-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .price-tag {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .price-tag strong {
+            color: var(--accent-light);
+            font-size: 1.2rem;
+        }
+
+        /* Glass Card Sections  */
+        .glass-section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 26, 46, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px var(--accent-glow);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+
+        .feature-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Screenshots */
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .screenshot-placeholder {
+            aspect-ratio: 16/10;
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            transition: all 0.4s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-placeholder:hover {
+            transform: scale(1.03);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px var(--accent-glow);
+        }
+
+
+
+/* Video */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .video-placeholder {
+            aspect-ratio: 16/9; 
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /*font-size: 3.5rem;*/
+            transition: all 0.4s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-placeholder:hover {
+            transform: scale(1.03);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px var(--accent-glow);
+        }
+        
+        .video-placeholder iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.video-placeholder {
+    overflow: hidden;
+}
+
+        /* Steps */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            position: relative;
+            padding: 2rem;
+            background: rgba(26, 26, 46, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.4s;
+        }
+
+        .step:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 50px var(--accent-glow);
+        }
+
+        .step-number {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 8px 24px var(--accent-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .step h3 {
+            font-family: 'Syne', sans-serif;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            background: rgba(26, 26, 46, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+
+        .faq-item h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .faq-item p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(20px);
+        }
+
+        footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Integration Note */
+        .integration-note {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .integration-note code {
+            background: rgba(15, 15, 35, 0.8);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            color: var(--accent-light);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .features-grid,
+            .screenshot-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .app-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .step {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Light Rays Background -->
+    <div class="light-rays-container">
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+    </div>
+
+    <!-- Glowing Orbs -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <!-- Content Layer -->
+    <div class="content-layer">
+        <!-- Navigation -->
+        <nav>
+           <!-- <a href="https://lucasedelmann.github.io" class="back-link">
+                ← Back to Portfolio
+            </a> • -->
+             <a href="#Features">Features</a> •
+             <a href="#Demo">Demo</a> •
+             <a href="#Tutorial">Tutorial</a> •
+             <a href="#FAQ">FAQ</a> • 
+             <a href="https://buy.polar.sh/polar_cl_PDeKgTDchQggB0PbA9y5Dm3kMdXJ9JdFRa8tJ03tk1g">Download</a>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <!-- <div class="app-icon">⏱</div> -->
+				<div class="app-icon">
+    				<img src="/images/icon-SilenceCutter-square.png" alt="Silence Cutter Icon" style="width: 80%; height: 80%; object-fit: contain;">
+				</div>
+                <h1>Silence Cutter</h1>
+                <p class="tagline">MacOS App that automatically removes silent sections from videos.</p>
+                
+                <div class="cta-container">
+                    <a href="https://buy.polar.sh/polar_cl_PDeKgTDchQggB0PbA9y5Dm3kMdXJ9JdFRa8tJ03tk1g" class="cta-button">
+                        Get Silence Cutter →
+                    </a>
+                    <p class="price-tag">One-time payment</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="Features">
+        <section class="glass-section">
+            <div class="container">
+                <h2 class="section-title">Designed for Simplicity</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡️</span>
+                        <h3>Ultra Lightweight</h3>
+                        <p>Pure Swift. No dependencies. No bloat. Just a tiny binary that does one thing perfectly.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h3>Menu Bar Native</h3>
+                        <p>Lives where you need it. No dock icon. No windows. Just time, always visible in your menu bar.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🖱</span>
+                        <h3>Intuitive Controls</h3>
+                        <p>Click to start/stop. Double-click to reset. Right-click to quit. That's it. No learning curve.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">⏱</span>
+                        <h3>Precise Timing</h3>
+                        <p>Updates 10 times per second. Hours, minutes, seconds format. Accurate to the millisecond.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3>Minimal Design</h3>
+                        <p>Clean, distraction-free interface that matches macOS perfectly. You'll forget it's even there.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <h3>Privacy First</h3>
+                        <p>No tracking. No analytics. No internet connection. Your time is yours alone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+         </section>
+
+        <!-- Screenshots Section -->
+        <section id="Demo">
+        <section class="glass-section">
+            <div class="container">
+                <h2 class="section-title">See It In Action</h2>
+                
+                	<div class="video-grid">
+                		
+						<div class="video-placeholder">
+    <iframe 
+    src="https://www.youtube.com/embed/RObTDnnmTvE?controls=0&rel=0&autoplay=1&mute=1&modestbranding=1&loop=1&playlist=RObTDnnmTvE"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+</iframe>
+</div>
+					</div>
+
+              
+            </div>
+        </section>
+         </section>
+
+        <!-- How It Works -->
+        <section id="Tutorial">
+        <section class="glass-section">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Download & Install</h3>
+                        <p>Purchase once, download the app, and drag it to your Applications folder. No account needed.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Launch</h3>
+                        <p>Open Tiny Stopwatch and it appears in your menu bar instantly. No setup, no configuration.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Start Tracking</h3>
+                        <p>Click to start timing. Double-click to reset. Right-click to quit. It's that simple.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="FAQ">
+        <section class="glass-section">
+            <div class="container">
+                <h2 class="section-title">Questions?</h2>
+                <div class="faq-list">
+					<div class="faq-item">
+                        <h3>Why is the app not opening?</h3>
+                        <p>Right click->Open at the first launch solves the problem.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What macOS version do I need?</h3>
+                        <p>Tiny Stopwatch requires macOS 10.15 (Catalina) or later. It works perfectly on Apple Silicon and Intel Macs.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Is this a subscription?</h3>
+                        <p>Nope! Buy it once, use it forever. No recurring charges, no hidden fees.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Can I customize the appearance?</h3>
+                        <p>Currently, Tiny Stopwatch uses a clean, minimal design that matches macOS. Custom themes may come in future updates!</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Does it work without internet?</h3>
+                        <p>Absolutely! Tiny Stopwatch is 100% offline. No internet connection required, no data collected.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Can I get a refund?</h3>
+                        <p>If you're not satisfied, contact me within 14 days for a full refund. No questions asked.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </section>
+
+
+
+
+        <!-- Final CTA -->
+        <section class="glass-section" style="text-align: center;">
+            <div class="container">
+                <h2 class="section-title">Ready to simplify time tracking?</h2>
+                <a href="https://buy.polar.sh/polar_cl_PDeKgTDchQggB0PbA9y5Dm3kMdXJ9JdFRa8tJ03tk1g" class="cta-button">
+                    Get Tiny Stopwatch →
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Made with ♥️ by <a href="https://lucasedelmann.github.io">Lucas</a></p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://lucasedelmann.github.io/imprint">Imprint</a> • 
+                <a href="mailto:business.edelmann@outlook.com">Support</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
