@@ -649,9 +649,6 @@
     <div class="content-layer">
         <!-- Navigation -->
         <nav>
-           <!-- <a href="https://lucasedelmann.github.io" class="back-link">
-                ← Back to Portfolio
-            </a> • -->
              <a href="#Features">Features</a> •
              <a href="#Demo">Demo</a> •
              <a href="#Tutorial">Tutorial</a> •
@@ -662,7 +659,6 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <!-- <div class="app-icon">⏱</div> -->
 				<div class="app-icon">
     				<img src="/images/icon-SilenceCutter-square.png" alt="Silence Cutter Icon" style="width: 80%; height: 80%; object-fit: contain;">
 				</div>
@@ -682,72 +678,69 @@
         <section id="Features">
         <section class="glass-section">
             <div class="container">
-                <h2 class="section-title">Designed for Simplicity</h2>
+                <h2 class="section-title">Built for Creators</h2>
                 <div class="features-grid">
                     <div class="feature-card">
+                        <span class="feature-icon">🎬</span>
+                        <h3>Automatic Silence Detection</h3>
+                        <p>Silence Cutter analyzes your video's audio track and automatically detects all silent sections — no manual scrubbing required.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">✂️</span>
+                        <h3>Non-Destructive Editing</h3>
+                        <p>Your original file is never touched. Silence Cutter works with segment markers so you can review, adjust, and re-export at any time.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🎚️</span>
+                        <h3>Adjustable Thresholds</h3>
+                        <p>Fine-tune the silence threshold and minimum duration to match your recording style — whether it's a podcast, tutorial, or talking-head video.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">📤</span>
+                        <h3>Multiple Export Formats</h3>
+                        <p>Export the cut video directly as MP4 or MOV, or export a timeline file for Final Cut Pro, DaVinci Resolve, or Premiere Pro.</p>
+                    </div>
+                    
+                    <div class="feature-card">
                         <span class="feature-icon">⚡️</span>
-                        <h3>Ultra Lightweight</h3>
-                        <p>Pure Swift. No dependencies. No bloat. Just a tiny binary that does one thing perfectly.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <span class="feature-icon">🎯</span>
-                        <h3>Menu Bar Native</h3>
-                        <p>Lives where you need it. No dock icon. No windows. Just time, always visible in your menu bar.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <span class="feature-icon">🖱</span>
-                        <h3>Intuitive Controls</h3>
-                        <p>Click to start/stop. Double-click to reset. Right-click to quit. That's it. No learning curve.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <span class="feature-icon">⏱</span>
-                        <h3>Precise Timing</h3>
-                        <p>Updates 10 times per second. Hours, minutes, seconds format. Accurate to the millisecond.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <span class="feature-icon">🎨</span>
-                        <h3>Minimal Design</h3>
-                        <p>Clean, distraction-free interface that matches macOS perfectly. You'll forget it's even there.</p>
+                        <h3>Native macOS Performance</h3>
+                        <p>Pure Swift, no Electron, no bloat. Silence Cutter uses AVFoundation directly for fast analysis and hardware-accelerated export.</p>
                     </div>
                     
                     <div class="feature-card">
                         <span class="feature-icon">🔒</span>
-                        <h3>Privacy First</h3>
-                        <p>No tracking. No analytics. No internet connection. Your time is yours alone.</p>
+                        <h3>100% Offline</h3>
+                        <p>Your videos never leave your Mac. No cloud uploads, no account, no subscription. Everything happens locally on your machine.</p>
                     </div>
                 </div>
             </div>
         </section>
-         </section>
+        </section>
 
-        <!-- Screenshots Section -->
+        <!-- Demo Section -->
         <section id="Demo">
         <section class="glass-section">
             <div class="container">
                 <h2 class="section-title">See It In Action</h2>
                 
-                	<div class="video-grid">
-                		
-						<div class="video-placeholder">
-    <iframe 
-    src="https://www.youtube.com/embed/RObTDnnmTvE?controls=0&rel=0&autoplay=1&mute=1&modestbranding=1&loop=1&playlist=RObTDnnmTvE"
-    title="YouTube video player"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-</iframe>
-</div>
-					</div>
-
-              
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        <iframe 
+                        src="https://www.youtube.com/embed/RObTDnnmTvE?controls=0&rel=0&autoplay=1&mute=1&modestbranding=1&loop=1&playlist=RObTDnnmTvE"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </section>
-         </section>
+        </section>
 
         <!-- How It Works -->
         <section id="Tutorial">
@@ -758,19 +751,25 @@
                     <div class="step">
                         <div class="step-number">1</div>
                         <h3>Download & Install</h3>
-                        <p>Purchase once, download the app, and drag it to your Applications folder. No account needed.</p>
+                        <p>Purchase once, download the app, and drag it to your Applications folder. No account needed, no setup.</p>
                     </div>
                     
                     <div class="step">
                         <div class="step-number">2</div>
-                        <h3>Launch</h3>
-                        <p>Open Tiny Stopwatch and it appears in your menu bar instantly. No setup, no configuration.</p>
+                        <h3>Import Your Video</h3>
+                        <p>Drop any video file into Silence Cutter. The app instantly analyzes the audio and marks all silent sections on the timeline.</p>
                     </div>
                     
                     <div class="step">
                         <div class="step-number">3</div>
-                        <h3>Start Tracking</h3>
-                        <p>Click to start timing. Double-click to reset. Right-click to quit. It's that simple.</p>
+                        <h3>Adjust & Review</h3>
+                        <p>Fine-tune the silence threshold and minimum duration sliders. Preview the result directly in the built-in player before exporting.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Export</h3>
+                        <p>Export the finished video as MP4 or MOV, or send the cut list directly to Final Cut Pro, DaVinci Resolve, or Premiere Pro.</p>
                     </div>
                 </div>
             </div>
@@ -783,13 +782,19 @@
             <div class="container">
                 <h2 class="section-title">Questions?</h2>
                 <div class="faq-list">
-					<div class="faq-item">
+                    <div class="faq-item">
                         <h3>Why is the app not opening?</h3>
-                        <p>Right click->Open at the first launch solves the problem.</p>
+                        <p>Because Silence Cutter is distributed outside the Mac App Store, macOS may show a security warning on first launch. Simply right-click the app and select "Open" to bypass it. This only needs to be done once.</p>
                     </div>
+
+                    <div class="faq-item">
+                        <h3>What video formats are supported?</h3>
+                        <p>Silence Cutter supports all formats that macOS can play natively — including MP4, MOV, M4V, and most common codecs like H.264 and H.265. If QuickTime can open it, Silence Cutter can process it.</p>
+                    </div>
+
                     <div class="faq-item">
                         <h3>What macOS version do I need?</h3>
-                        <p>Tiny Stopwatch requires macOS 10.15 (Catalina) or later. It works perfectly on Apple Silicon and Intel Macs.</p>
+                        <p>Silence Cutter requires macOS 15 (Sequoia) or later. It runs natively on both Apple Silicon and Intel Macs.</p>
                     </div>
                     
                     <div class="faq-item">
@@ -798,13 +803,13 @@
                     </div>
                     
                     <div class="faq-item">
-                        <h3>Can I customize the appearance?</h3>
-                        <p>Currently, Tiny Stopwatch uses a clean, minimal design that matches macOS. Custom themes may come in future updates!</p>
+                        <h3>Can I use it with Final Cut Pro or Premiere?</h3>
+                        <p>Yes! Silence Cutter can export FCPXML for Final Cut Pro, EDL for DaVinci Resolve, and Premiere Pro XML — so you can do the silence cutting in Silence Cutter and finish the edit in your preferred NLE.</p>
                     </div>
-                    
+
                     <div class="faq-item">
                         <h3>Does it work without internet?</h3>
-                        <p>Absolutely! Tiny Stopwatch is 100% offline. No internet connection required, no data collected.</p>
+                        <p>Absolutely. Silence Cutter is 100% offline. Your videos never leave your Mac — no uploads, no cloud processing, no data collected.</p>
                     </div>
                     
                     <div class="faq-item">
@@ -816,15 +821,12 @@
         </section>
         </section>
 
-
-
-
         <!-- Final CTA -->
         <section class="glass-section" style="text-align: center;">
             <div class="container">
-                <h2 class="section-title">Ready to simplify time tracking?</h2>
+                <h2 class="section-title">Stop wasting time on silence.</h2>
                 <a href="https://buy.polar.sh/polar_cl_PDeKgTDchQggB0PbA9y5Dm3kMdXJ9JdFRa8tJ03tk1g" class="cta-button">
-                    Get Tiny Stopwatch →
+                    Get Silence Cutter →
                 </a>
             </div>
         </section>
