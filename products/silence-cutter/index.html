@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silence Cutter - Auto Remove Silence from Videos | macOS App</title>
-    <meta name="description" content="App that automatically removes silent sections from videos.">
+    
+    <!-- Meta Description -->
+    <meta name="description" content="Silence Cutter - Automatically remove silent sections from videos on macOS. Save editing time with AI-powered silence detection. One-time payment, no subscription.">
+    <meta name="keywords" content="video editing, silence removal, macOS video editor, auto cut silence, video tool, silence detection, video editor mac">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Silence Cutter - Auto Remove Silence from Videos">
+    <meta property="og:description" content="macOS app that automatically cuts silent sections from videos. Save hours of editing time.">
+    <meta property="og:image" content="https://lucasedelmann.github.io/images/icon-SilenceCutter-square.png">
+    <meta property="og:url" content="https://lucasedelmann.github.io/products/silence-cutter/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Silence Cutter - Auto Remove Video Silence">
+    <meta name="twitter:description" content="macOS app to cut silent sections automatically. Save editing time.">
+    <meta name="twitter:image" content="https://lucasedelmann.github.io/images/icon-SilenceCutter-square.png">
+    
     <link rel="icon" type="image/x-icon" href="/images/silencecutter-favicon.ico" sizes="any">
-    <meta name="description" content="Silence Cutter - Automatically remove silent sections from videos on macOS. Save editing time with AI-powered silence detection. One-time payment.">
-<meta name="keywords" content="video editing, silence removal, macOS video editor, auto cut silence, video tool">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +37,6 @@
             --text-secondary: #a8a8b8;
             --accent: #6A3DE8;
             --accent-light: #9A99F2;
-           /* --accent-light: #CCDCFF; */
             --accent-glow: rgba(139, 121, 217, 0.5);
             --border: rgba(255, 255, 255, 0.1);
         }
@@ -428,9 +443,7 @@
             box-shadow: 0 20px 50px var(--accent-glow);
         }
 
-
-
-/* Video */
+        /* Video */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -447,7 +460,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /*font-size: 3.5rem;*/
             transition: all 0.4s;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
@@ -459,14 +471,14 @@
         }
         
         .video-placeholder iframe {
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-}
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+        }
 
-.video-placeholder {
-    overflow: hidden;
-}
+        .video-placeholder {
+            overflow: hidden;
+        }
 
         /* Steps */
         .steps {
@@ -633,6 +645,23 @@
         }
     </style>
 
+    <!-- Schema.org Product Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Silence Cutter",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "macOS 15+",
+      "offers": {
+        "@type": "Offer",
+        "price": "49.99",
+        "priceCurrency": "EUR"
+      },
+      "description": "macOS app that automatically removes silent sections from videos"
+    }
+    </script>
+
 </head>
 <body>
     <!-- Light Rays Background -->
@@ -732,14 +761,7 @@
                 
                 <div class="video-grid">
                     <div class="video-placeholder">
-                       <!-- <iframe 
-                        src="https://www.youtube.com/embed/RObTDnnmTvE?controls=0&rel=0&autoplay=1&mute=1&modestbranding=1&loop=1&playlist=RObTDnnmTvE"
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen>
-                        </iframe> -->
+                       <!-- Add your demo video here when ready -->
                     </div>
                 </div>
             </div>
@@ -803,7 +825,7 @@
                     
                     <div class="faq-item">
                         <h3>Is this a subscription?</h3>
-                        <p>Nope! Buy it once, use it forever. No recurring charges, no hidden fees.</p>
+                        <p>Nope! One-time payment of €49.99. Buy it once, use it forever. No recurring charges, no hidden fees.</p>
                     </div>
                     
                     <div class="faq-item">
@@ -837,7 +859,7 @@
 
         <!-- Footer -->
         <footer>
-            <p>Made with ♥️ by <a href="https://lucasedelmann.github.io">Lucas</a></p>
+            <p>Made with ❤️ by <a href="https://lucasedelmann.github.io">Lucas Edelmann</a></p>
             <p style="margin-top: 0.5rem;">
                 <a href="https://lucasedelmann.github.io/imprint">Imprint</a> • 
                 <a href="mailto:business.edelmann@outlook.com">Support</a>
@@ -888,7 +910,6 @@ function declineCookies() {
 }
 
 function loadGoogleAnalytics() {
-    // Ersetze G-XXXXXXXXXX mit deiner echten Measurement ID
     const script1 = document.createElement('script');
     script1.async = true;
     script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-1EP1EWMT4C';
