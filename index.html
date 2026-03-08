@@ -548,6 +548,8 @@
             scroll-behavior: smooth;
         }
     </style>
+
+
 </head>
 <body>
     <!-- Light Rays Background -->
@@ -727,5 +729,63 @@
             </p>
         </footer>
     </div>
+
+
+    <!-- Cookie Banner -->
+<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(30, 41, 59, 0.98); color: white; padding: 1.5rem; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <p style="margin: 0; flex: 1; min-width: 250px;">
+            Diese Website nutzt Google Analytics, um die Nutzung zu analysieren. 
+            
+        </p>
+        <div style="display: flex; gap: 1rem;">
+            <button onclick="acceptCookies()" style="background: #6366F1; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                Akzeptieren
+            </button>
+            <button onclick="declineCookies()" style="background: transparent; color: white; border: 2px solid white; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                Ablehnen
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Google Analytics (wird nur geladen wenn akzeptiert) -->
+<script>
+// Prüfe ob Cookies bereits akzeptiert/abgelehnt wurden
+window.addEventListener('load', function() {
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent === 'accepted') {
+        loadGoogleAnalytics();
+    } else if (consent === null) {
+        // Zeige Banner nur wenn noch keine Entscheidung getroffen wurde
+        document.getElementById('cookie-banner').style.display = 'block';
+    }
+});
+
+function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookie-banner').style.display = 'none';
+    loadGoogleAnalytics();
+}
+
+function declineCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('cookie-banner').style.display = 'none';
+}
+
+function loadGoogleAnalytics() {
+    // Ersetze G-XXXXXXXXXX mit deiner echten Measurement ID
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-1EP1EWMT4C';
+    document.head.appendChild(script1);
+    
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1EP1EWMT4C');
+}
+</script>
+
 </body>
 </html>
