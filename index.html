@@ -529,12 +529,49 @@
             color: var(--text-primary);
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(15, 15, 35, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border-left: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateX(20px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+
+            .nav-links a {
+                font-size: 1.5rem;
             }
 
             .mobile-menu-btn {
@@ -600,13 +637,13 @@
         <nav id="home">
             <div class="container">
                 <a href="#home" class="logo">lucas edelmann</a>
-                <ul class="nav-links">
+                <ul class="nav-links" id="navMenu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#clients">Clients</a></li>
                     <li><a href="#projects">Development</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <button class="mobile-menu-btn">☰</button>
+                <button class="mobile-menu-btn" id="hamburger">☰</button>
             </div>
         </nav>
 
@@ -660,10 +697,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 
-                <div style="text-align: center; margin-top: 3rem;">
-                    <a href="/stats/stats-index.html" class="client-link">See Statistics →</a>
-                </div> -->
             </div>
         </section>
 
@@ -688,7 +721,7 @@
                             <span class="client-status-ongoing">Live</span>
                             <p>App that automatically removes silent sections from videos.</p>
                             <div class="client-links">
-                                <a href="https://lucasedelmann.github.io/products/silence-cutter/" class="client-link">Learn More →</a> <!-- Link muss ich noch erstellen und einfügen-->
+                                <a href="https://lucasedelmann.github.io/products/silence-cutter/" class="client-link">Learn More →</a>
                             </div>
                         </div>
                         <div class="client-card">
@@ -706,35 +739,6 @@
             </div>
         </section>
 
-        <!-- Alte Section mit Projekten
-        <section class="section" id="projects">
-            <div class="container">
-                <h2 class="section-title">Development Projects</h2>
-                <p class="section-subtitle">Building tools that make life simpler</p>
-                
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>Tiny Stopwatch</h3>
-                        <p>A lightweight, minimal macOS stopwatch that lives in your menu bar.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Swift</span>
-                            <span class="tech-tag">Shell</span>
-                        </div>
-                        <a href="products/tiny-stopwatch/" class="project-link">Learn More →</a>
-                    </div>
-                    <div class="project-card">
-                        <h3>Stay tuned</h3>
-                        <p>What's on your mind? More projects coming soon.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">??</span>
-                            <span class="tech-tag">??</span>
-                        </div>
-                        <a href="#contact" class="project-link">Suggest an Idea →</a>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
         <!-- Contact Section -->
         <section class="section contact-section" id="contact">
             <div class="container">
@@ -743,7 +747,7 @@
                 
                 <div class="contact-links">
                     <a href="mailto:business.edelmann@outlook.com" class="contact-card">Email</a>
-                   <!--  <a href="https://github.com/LucasEdelmann" class="contact-card">GitHub</a>-->
+                     <a href="https://x.com/lucas_edlmn" class="contact-card" target="_blank">x.com</a>
                     <a href="https://www.upwork.com/freelancers/~014676528e3f6613b0?mp_source=share" class="contact-card" target="_blank">Upwork</a>
                 </div>
             </div>
@@ -813,6 +817,28 @@ function loadGoogleAnalytics() {
     gtag('js', new Date());
     gtag('config', 'G-1EP1EWMT4C');
 }
+
+// Hamburger Menu Toggle
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+
+hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+});
+
+// Close menu when clicking on a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+    });
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('active');
+    }
+});
 </script>
 
 </body>
