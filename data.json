@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-09T23:34:09Z",
-  "total_views": 7722,
-  "total_likes": 302,
+  "last_updated": "2026-03-10T06:54:59Z",
+  "total_views": 7742,
+  "total_likes": 303,
   "video_count": 8,
   "videos": [
     {
@@ -9,7 +9,7 @@
       "title": "10X statt Chatbot: So nutzt du Antigravity richtig",
       "channel": "Mike Mildenberger",
       "published": "2026-01-17",
-      "views": 5243,
+      "views": 5248,
       "likes": 183
     },
     {
@@ -17,7 +17,7 @@
       "title": "Infisical: a Complete Guide to Secrets Management",
       "channel": "Infisical",
       "published": "2026-01-30",
-      "views": 1495,
+      "views": 1498,
       "likes": 35
     },
     {
@@ -25,7 +25,7 @@
       "title": "GitHub Actions Secrets Management with Infisical",
       "channel": "Infisical",
       "published": "2026-02-03",
-      "views": 254,
+      "views": 255,
       "likes": 19
     },
     {
@@ -33,7 +33,7 @@
       "title": "External Secrets Operator Explained (ESO) | Kubernetes Secrets Made Simple",
       "channel": "Infisical",
       "published": "2026-03-03",
-      "views": 207,
+      "views": 208,
       "likes": 8
     },
     {
@@ -41,8 +41,16 @@
       "title": "Secrets Management in Kubernetes: Foundations",
       "channel": "Infisical",
       "published": "2026-02-09",
-      "views": 200,
+      "views": 203,
       "likes": 16
+    },
+    {
+      "id": "8PBH2pOirtY",
+      "title": "What’s New at Infisical — January 2026 Updates",
+      "channel": "Infisical",
+      "published": "2026-02-11",
+      "views": 139,
+      "likes": 12
     },
     {
       "id": "LDCh64Oa1Qc",
@@ -53,20 +61,12 @@
       "likes": 13
     },
     {
-      "id": "8PBH2pOirtY",
-      "title": "What’s New at Infisical — January 2026 Updates",
-      "channel": "Infisical",
-      "published": "2026-02-11",
-      "views": 138,
-      "likes": 12
-    },
-    {
       "id": "O-O6pIFrhwE",
       "title": "Kubernetes Secrets: Architecture & Best Practices",
       "channel": "Infisical",
       "published": "2026-03-08",
-      "views": 47,
-      "likes": 16
+      "views": 53,
+      "likes": 17
     }
   ]
 }
