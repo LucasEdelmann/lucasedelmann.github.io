@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-11T06:58:07Z",
-  "total_views": 7905,
-  "total_likes": 306,
+  "last_updated": "2026-03-12T06:59:52Z",
+  "total_views": 8039,
+  "total_likes": 309,
   "video_count": 8,
   "videos": [
     {
@@ -9,23 +9,23 @@
       "title": "10X statt Chatbot: So nutzt du Antigravity richtig",
       "channel": "Mike Mildenberger",
       "published": "2026-01-17",
-      "views": 5293,
-      "likes": 184
+      "views": 5339,
+      "likes": 186
     },
     {
       "id": "BMeng7nkRYs",
       "title": "Infisical: a Complete Guide to Secrets Management",
       "channel": "Infisical",
       "published": "2026-01-30",
-      "views": 1566,
-      "likes": 35
+      "views": 1613,
+      "likes": 36
     },
     {
       "id": "9PQmd_aoRWA",
       "title": "GitHub Actions Secrets Management with Infisical",
       "channel": "Infisical",
       "published": "2026-02-03",
-      "views": 261,
+      "views": 272,
       "likes": 19
     },
     {
@@ -33,7 +33,7 @@
       "title": "External Secrets Operator Explained (ESO) | Kubernetes Secrets Made Simple",
       "channel": "Infisical",
       "published": "2026-03-03",
-      "views": 219,
+      "views": 228,
       "likes": 8
     },
     {
@@ -41,7 +41,7 @@
       "title": "Secrets Management in Kubernetes: Foundations",
       "channel": "Infisical",
       "published": "2026-02-09",
-      "views": 205,
+      "views": 206,
       "likes": 16
     },
     {
@@ -49,7 +49,7 @@
       "title": "Sealed Secrets Explained: Secure Kubernetes Secrets the Right Way",
       "channel": "Infisical",
       "published": "2026-02-18",
-      "views": 145,
+      "views": 148,
       "likes": 13
     },
     {
@@ -57,7 +57,7 @@
       "title": "What’s New at Infisical — January 2026 Updates",
       "channel": "Infisical",
       "published": "2026-02-11",
-      "views": 143,
+      "views": 146,
       "likes": 12
     },
     {
@@ -65,7 +65,7 @@
       "title": "Kubernetes Secrets: Architecture & Best Practices",
       "channel": "Infisical",
       "published": "2026-03-08",
-      "views": 73,
+      "views": 87,
       "likes": 19
     }
   ]
