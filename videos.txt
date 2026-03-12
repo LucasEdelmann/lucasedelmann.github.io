@@ -1,12 +1,14 @@
-# Hier trägst du deine YouTube-Links ein (einen pro Zeile)
-# Zeilen die mit # beginnen werden ignoriert
-
-# --- Beispiel-Links (ersetzen mit deinen echten Videos) ---
-https://www.youtube.com/watch?v=wU96k22mIIg
+# --- Infisical ---
+https://www.youtube.com/watch?v=O-O6pIFrhwE
+https://www.youtube.com/watch?v=aaqwF9_O9Zw
 https://www.youtube.com/watch?v=Wnh9mF_BpWo
 https://www.youtube.com/watch?v=LDCh64Oa1Qc
 https://www.youtube.com/watch?v=8PBH2pOirtY
 https://www.youtube.com/watch?v=QO9zoCgnXBI
 https://www.youtube.com/watch?v=9PQmd_aoRWA
 https://www.youtube.com/watch?v=BMeng7nkRYs
-https://www.youtube.com/watch?v=O-O6pIFrhwE
+
+
+# --- Mike ---
+https://www.youtube.com/watch?v=wU96k22mIIg
+https://www.youtube.com/watch?v=d3br5o8KFhs
