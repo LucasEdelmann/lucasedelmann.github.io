@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -13,7 +12,7 @@
     --surface: #111113;
     --surface2: #18181c;
     --border: #222228;
-    --accent: #ff3c3c;
+    --accent: #e8ff3c;
     --accent2: #ff8c42;
     --text: #f0f0f2;
     --muted: #6b6b78;
@@ -34,262 +33,210 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 80% 10%, rgba(255,60,60,0.06) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,140,66,0.05) 0%, transparent 60%);
+    background: radial-gradient(ellipse 60% 50% at 80% 10%, rgba(232,255,60,0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,140,66,0.04) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
 
   .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-  header {
-    padding: 40px 0 32px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 48px;
-  }
+  /* ── HEADER ── */
+  header { padding: 36px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
 
   .header-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 16px;
   }
 
-  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 14px; }
 
   .logo-icon {
-    width: 44px; height: 44px;
+    width: 46px; height: 46px;
     background: var(--accent);
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
+    flex-shrink: 0;
   }
+
+  .logo-icon svg { width: 26px; height: 26px; }
 
   .logo-text h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--text), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 30px; letter-spacing: 3px; line-height: 1; color: var(--text);
   }
 
   .logo-text p {
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 2px;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px;
   }
 
-  .last-update {
-    font-size: 12px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  .last-update { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 
   .live-dot {
-    width: 7px; height: 7px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    width: 7px; height: 7px; background: var(--green);
+    border-radius: 50%; animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
+    50% { opacity: 0.4; transform: scale(0.75); }
   }
 
-  /* Loading & Error states */
-  .state-box {
-    text-align: center;
-    padding: 80px 24px;
-    color: var(--muted);
-  }
+  /* ── STATES ── */
+  .state-box { text-align: center; padding: 80px 24px; color: var(--muted); }
   .state-box .icon { font-size: 48px; margin-bottom: 16px; display: block; }
-  .state-box p { font-size: 14px; line-height: 1.7; }
+  .state-box p { font-size: 14px; line-height: 1.8; }
   .spinner {
     width: 36px; height: 36px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
+    border: 3px solid var(--border); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-  /* Stats Grid */
+  /* ── KPI GRID ── */
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-bottom: 48px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px; margin-bottom: 40px;
   }
 
   .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease both;
-    transition: border-color 0.3s;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 20px;
+    position: relative; overflow: hidden;
+    animation: fadeUp 0.5s ease both; transition: border-color 0.25s;
   }
 
   .stat-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
-    opacity: 0;
-    transition: opacity 0.3s;
+    opacity: 0; transition: opacity 0.25s;
   }
 
+  .stat-card:hover { border-color: #2e2e38; }
   .stat-card:hover::after { opacity: 1; }
-  .stat-card:hover { border-color: #333340; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+  .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 1px; line-height: 1; color: var(--text); }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+  /* ── LINE CHART ── */
+  .chart-section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px 24px 20px;
+    margin-bottom: 40px; animation: fadeUp 0.5s ease 0.15s both; overflow: hidden;
   }
 
-  .stat-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
+  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .chart-title { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--muted); }
+  .chart-total { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent); letter-spacing: 1px; }
+  .chart-wrap { position: relative; width: 100%; height: 140px; }
+  svg.line-chart { width: 100%; height: 100%; overflow: visible; }
+  .chart-label { font-size: 10px; fill: var(--muted); font-family: 'DM Sans', sans-serif; }
 
-  .stat-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    letter-spacing: 1px;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--text) 60%, var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  /* ── CHANNELS ── */
+  .channels-section { margin-bottom: 40px; animation: fadeUp 0.5s ease 0.2s both; }
 
-  .stat-sub {
-    font-size: 12px;
-    color: var(--green);
-    margin-top: 6px;
-  }
-
-  /* Section header */
   .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
   }
 
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+
+  .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+
+  .channel-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 18px;
+    display: flex; align-items: center; gap: 14px; transition: border-color 0.2s;
   }
 
-  /* Video List */
-  .video-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 48px; }
+  .channel-card:hover { border-color: #2e2e38; }
+  .channel-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .channel-info { flex: 1; min-width: 0; }
+  .channel-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+  .channel-meta { font-size: 11px; color: var(--muted); }
+  .channel-views { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text); white-space: nowrap; }
+
+  /* ── SORT BAR ── */
+  .sort-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .sort-btn {
+    font-size: 11px; font-family: 'DM Sans', sans-serif;
+    color: var(--muted); background: var(--surface2);
+    border: 1px solid var(--border); padding: 5px 14px;
+    border-radius: 20px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+
+  .sort-btn:hover { color: var(--text); border-color: #444; }
+  .sort-btn.active { color: var(--bg); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+  /* ── VIDEO LIST ── */
+  .video-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 
   .video-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: grid;
-    grid-template-columns: 40px 80px 1fr auto;
-    align-items: center;
-    gap: 16px;
-    transition: all 0.25s;
-    animation: fadeUp 0.5s ease both;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 13px; padding: 14px 18px;
+    display: grid; grid-template-columns: 36px 88px 1fr auto;
+    align-items: center; gap: 14px;
+    transition: all 0.2s; animation: fadeUp 0.4s ease both;
+    text-decoration: none; color: inherit;
   }
 
-  .video-card:hover {
-    border-color: #333340;
-    background: var(--surface2);
-    transform: translateX(4px);
-  }
+  .video-card:hover { border-color: #2e2e38; background: var(--surface2); transform: translateX(3px); }
 
-  .video-rank {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--border);
-    text-align: center;
-    line-height: 1;
-  }
-
+  .video-rank { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--border); text-align: center; line-height: 1; }
   .video-rank.top { color: var(--accent); }
 
-  .video-thumb {
-    width: 80px; height: 45px;
-    border-radius: 8px;
-    background: var(--surface2);
-    overflow: hidden;
-    flex-shrink: 0;
-  }
+  .video-thumb { width: 88px; height: 50px; border-radius: 7px; background: var(--surface2); overflow: hidden; flex-shrink: 0; }
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg,#1a1a20,#222230); display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--muted); }
 
-  .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-  .thumb-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1a1a20, #222230);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
+  .video-info { min-width: 0; }
 
   .video-info h3 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 5px;
+    /* Wrap on mobile, 2-line clamp */
+    word-break: break-word; overflow-wrap: break-word;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 
-  .video-meta { display: flex; gap: 12px; font-size: 11px; color: var(--muted); }
+  .video-meta { display: flex; gap: 10px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+  .channel-pill { display: inline-flex; align-items: center; gap: 5px; }
+  .channel-pip { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-  .video-views { text-align: right; }
+  .video-views { text-align: right; flex-shrink: 0; }
+  .views-number { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.5px; line-height: 1; color: var(--text); }
+  .views-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-  .views-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.5px;
-    line-height: 1;
+  /* ── SHOW MORE ── */
+  .show-more-wrap { text-align: center; margin-bottom: 48px; }
+
+  .show-more-btn {
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    color: var(--muted); background: var(--surface); border: 1px solid var(--border);
+    padding: 10px 28px; border-radius: 24px; cursor: pointer; transition: all 0.2s;
   }
 
-  .views-label {
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  .show-more-btn:hover { color: var(--text); border-color: #444; }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 24px 0;
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 24px;
-  }
+  footer { border-top: 1px solid var(--border); padding: 22px 0; text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-top: 24px; }
 
-  @media (max-width: 640px) {
-    .video-card { grid-template-columns: 32px 1fr auto; }
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .video-card { grid-template-columns: 28px 1fr auto; gap: 10px; padding: 12px 14px; }
     .video-thumb { display: none; }
-    .stat-value { font-size: 32px; }
+    .stat-value { font-size: 30px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-wrap { height: 110px; }
+    .video-info h3 { font-size: 12px; -webkit-line-clamp: 3; }
+    .sort-btn { font-size: 10px; padding: 4px 10px; }
   }
 </style>
 </head>
@@ -299,15 +246,23 @@
   <header>
     <div class="header-inner">
       <div class="logo">
-        <div class="logo-icon">✂️</div>
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+          </svg>
+        </div>
         <div class="logo-text">
-          <h1>CutStats</h1>
-          <p>by Lucas Edelmann</p>
+          <h1>CUTSTATS</h1>
+          <p>Videocutter Dashboard</p>
         </div>
       </div>
       <div class="last-update">
         <div class="live-dot"></div>
-        last update: <span id="updateTime">–</span>
+        Aktualisiert: <span id="updateTime">–</span>
       </div>
     </div>
   </header>
@@ -315,20 +270,26 @@
   <div id="app">
     <div class="state-box">
       <div class="spinner"></div>
-      <p>loading…</p>
+      <p>Lade Daten…</p>
     </div>
   </div>
 
   <footer>
-    CutStats &nbsp;·&nbsp; Daten via YouTube Data API v3 &nbsp;·&nbsp; updated daily
+    CUTSTATS &nbsp;·&nbsp; YouTube Data API v3 &nbsp;·&nbsp; Täglich automatisch aktualisiert
   </footer>
 </div>
 
 <script>
-  // ── KONFIGURATION ────────────────────────────────────────────────
-  // Passe diese URL an deinen GitHub-Benutzernamen und Repository-Namen an:
-  const DATA_URL = 'https://raw.githubusercontent.com/LucasEdelmann/lucasedelmann.github.io/main/data.json';
-  // ────────────────────────────────────────────────────────────────
+  // ── KONFIGURATION ─────────────────────────────────────────────────────────
+  const DATA_URL = 'https://raw.githubusercontent.com/DEIN-USERNAME/DEIN-REPO/main/data.json';
+  // ──────────────────────────────────────────────────────────────────────────
+
+  const PALETTE = ['#e8ff3c','#ff8c42','#2dce71','#4db8ff','#c77dff','#ff6b9d','#ffd166','#06d6a0'];
+
+  let globalData = null;
+  let currentSort = 'views';
+  let showAll = false;
+  const PAGE_SIZE = 5;
 
   function fmt(n) {
     if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.', ',') + ' Mio.';
@@ -337,140 +298,223 @@
   }
 
   function fmtDate(iso) {
+    if (!iso) return '–';
     return new Date(iso).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
-  function render(data) {
-    // Update timestamp
-    document.getElementById('updateTime').textContent = fmtDate(data.last_updated);
+  function buildChannelMap(videos) {
+    const channels = [...new Set(videos.map(v => v.channel))];
+    const map = {};
+    channels.forEach((ch, i) => { map[ch] = PALETTE[i % PALETTE.length]; });
+    return map;
+  }
 
-    const app = document.getElementById('app');
-    app.innerHTML = `
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Views</div>
-          <div class="stat-value">${fmt(data.total_views)}</div>
-          <div class="stat-sub">${data.total_views.toLocaleString('de-DE')} total views</div>
-        </div>
-        <div class="stat-card" style="animation-delay:0.05s">
-          <div class="stat-label">Edited videos</div>
-          <div class="stat-value">${data.video_count}</div>
-          <div class="stat-sub">for different channels</div>
-        </div>
-        <div class="stat-card" style="animation-delay:0.1s">
-          <div class="stat-label">Ø views per video</div>
-          <div class="stat-value">${fmt(Math.round(data.total_views / data.video_count))}</div>
-          <div class="stat-sub">avg</div>
-        </div>
-        <div class="stat-card" style="animation-delay:0.15s">
-          <div class="stat-label">Likes</div>
-          <div class="stat-value">${fmt(data.total_likes)}</div>
-          <div class="stat-sub">sum of all videos</div>
-        </div>
+  function renderKPIs(data, channelMap) {
+    const channelCount = Object.keys(channelMap).length;
+    return `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Gesamtaufrufe</div>
+        <div class="stat-value">${fmt(data.total_views)}</div>
+        <div class="stat-sub">${data.total_views.toLocaleString('de-DE')} Klicks total</div>
       </div>
+      <div class="stat-card" style="animation-delay:.05s">
+        <div class="stat-label">Videos geschnitten</div>
+        <div class="stat-value">${data.video_count}</div>
+        <div class="stat-sub">über ${channelCount} Kanal${channelCount !== 1 ? 'e' : ''}</div>
+      </div>
+      <div class="stat-card" style="animation-delay:.1s">
+        <div class="stat-label">Ø pro Video</div>
+        <div class="stat-value">${fmt(Math.round(data.total_views / data.video_count))}</div>
+        <div class="stat-sub">Aufrufe im Schnitt</div>
+      </div>
+      <div class="stat-card" style="animation-delay:.15s">
+        <div class="stat-label">Gesamte Likes</div>
+        <div class="stat-value">${fmt(data.total_likes)}</div>
+        <div class="stat-sub">über alle Videos</div>
+      </div>
+      <div class="stat-card" style="animation-delay:.2s">
+        <div class="stat-label">Kanäle</div>
+        <div class="stat-value">${channelCount}</div>
+        <div class="stat-sub">verschiedene Kanäle</div>
+      </div>
+    </div>`;
+  }
 
+  function renderChart(videos, totalViews) {
+    const sorted = [...videos].sort((a, b) => new Date(a.published) - new Date(b.published));
+    let cum = 0;
+    const points = sorted.map(v => { cum += v.views; return { label: v.published ? v.published.slice(0,7) : '', val: cum }; });
+    if (points.length < 2) return '';
+
+    const W = 900, H = 120, P = { t: 10, r: 10, b: 28, l: 10 };
+    const iW = W - P.l - P.r, iH = H - P.t - P.b;
+    const maxVal = points[points.length - 1].val;
+    const px = i => P.l + (i / (points.length - 1)) * iW;
+    const py = v => P.t + iH - (v / maxVal) * iH;
+
+    const pathD = points.map((p, i) => `${i===0?'M':'L'}${px(i).toFixed(1)},${py(p.val).toFixed(1)}`).join(' ');
+    const areaD = `${pathD} L${px(points.length-1).toFixed(1)},${(P.t+iH).toFixed(1)} L${P.l},${(P.t+iH).toFixed(1)} Z`;
+
+    const step = Math.max(1, Math.floor(points.length / 6));
+    const labels = points
+      .map((p, i) => ({ ...p, i }))
+      .filter((_, i) => i === 0 || i === points.length - 1 || i % step === 0)
+      .map(p => `<text x="${px(p.i).toFixed(1)}" y="${H-4}" text-anchor="middle" class="chart-label">${p.label}</text>`)
+      .join('');
+
+    return `
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">GESAMTAUFRUFE KUMULIERT</div>
+        <div class="chart-total">${fmt(totalViews)} gesamt</div>
+      </div>
+      <div class="chart-wrap">
+        <svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e8ff3c" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#e8ff3c" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="${P.l}" y1="${P.t}" x2="${P.l+iW}" y2="${P.t}" stroke="#222228" stroke-width="1"/>
+          <line x1="${P.l}" y1="${P.t+iH/2}" x2="${P.l+iW}" y2="${P.t+iH/2}" stroke="#222228" stroke-width="1"/>
+          <line x1="${P.l}" y1="${P.t+iH}" x2="${P.l+iW}" y2="${P.t+iH}" stroke="#222228" stroke-width="1"/>
+          <path d="${areaD}" fill="url(#ag)"/>
+          <path d="${pathD}" fill="none" stroke="#e8ff3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          ${points.map((p, i) => `<circle cx="${px(i).toFixed(1)}" cy="${py(p.val).toFixed(1)}" r="3" fill="#e8ff3c"/>`).join('')}
+          ${labels}
+        </svg>
+      </div>
+    </div>`;
+  }
+
+  function renderChannels(videos, channelMap) {
+    const byChannel = {};
+    videos.forEach(v => {
+      if (!byChannel[v.channel]) byChannel[v.channel] = { views: 0, likes: 0, count: 0 };
+      byChannel[v.channel].views += v.views;
+      byChannel[v.channel].likes += (v.likes || 0);
+      byChannel[v.channel].count++;
+    });
+    const sorted = Object.entries(byChannel).sort((a, b) => b[1].views - a[1].views);
+    return `
+    <div class="channels-section">
+      <div class="section-header"><div class="section-title">NACH KANAL</div></div>
+      <div class="channel-grid">
+        ${sorted.map(([name, s]) => `
+          <div class="channel-card">
+            <div class="channel-dot" style="background:${channelMap[name]}"></div>
+            <div class="channel-info">
+              <div class="channel-name">${name}</div>
+              <div class="channel-meta">${s.count} Video${s.count!==1?'s':''} · ${fmt(s.likes)} Likes</div>
+            </div>
+            <div class="channel-views">${fmt(s.views)}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  function renderVideos(videos, channelMap) {
+    const sorted = [...videos].sort((a, b) => {
+      if (currentSort === 'views')   return b.views - a.views;
+      if (currentSort === 'likes')   return (b.likes||0) - (a.likes||0);
+      if (currentSort === 'date')    return new Date(b.published) - new Date(a.published);
+      if (currentSort === 'channel') return a.channel.localeCompare(b.channel);
+      return 0;
+    });
+
+    const visible = showAll ? sorted : sorted.slice(0, PAGE_SIZE);
+    const hasMore = sorted.length > PAGE_SIZE;
+
+    const sortDefs = [
+      { key: 'views',   label: '↓ Aufrufe' },
+      { key: 'likes',   label: '↓ Likes' },
+      { key: 'date',    label: '↓ Datum' },
+      { key: 'channel', label: 'A–Z Kanal' },
+    ];
+
+    return `
+    <div id="videoSection">
       <div class="section-header">
-        <div class="section-title">ALL VIDEOS</div>
+        <div class="section-title">VIDEOS</div>
+        <div class="sort-bar">
+          ${sortDefs.map(s => `<button class="sort-btn ${currentSort===s.key?'active':''}" onclick="setSort('${s.key}')">${s.label}</button>`).join('')}
+        </div>
       </div>
       <div class="video-list">
-        ${data.videos.map((v, i) => `
-          <a class="video-card" href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener"
-             style="animation-delay:${i * 0.04}s">
-            <div class="video-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
+        ${visible.map((v, i) => `
+          <a class="video-card" href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" style="animation-delay:${i*.03}s">
+            <div class="video-rank ${i<3&&currentSort==='views'?'top':''}">${i+1}</div>
             <div class="video-thumb">
               <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"
-                   onerror="this.parentNode.innerHTML='<div class=\\'thumb-placeholder\\'>▶</div>'"
-                   loading="lazy">
+                   onerror="this.parentNode.innerHTML='<div class=\\'thumb-placeholder\\'>▶</div>'" loading="lazy">
             </div>
             <div class="video-info">
               <h3>${v.title}</h3>
               <div class="video-meta">
-                <span>📺 ${v.channel}</span>
+                <span class="channel-pill">
+                  <span class="channel-pip" style="background:${channelMap[v.channel]||'#888'}"></span>
+                  ${v.channel}
+                </span>
                 <span>📅 ${fmtDate(v.published)}</span>
               </div>
             </div>
             <div class="video-views">
-              <div class="views-number">${fmt(v.views)}</div>
-              <div class="views-label">Aufrufe</div>
+              <div class="views-number">${fmt(currentSort==='likes'?(v.likes||0):v.views)}</div>
+              <div class="views-label">${currentSort==='likes'?'Likes':'Aufrufe'}</div>
             </div>
           </a>`).join('')}
-      </div>`;
+      </div>
+      ${hasMore ? `
+        <div class="show-more-wrap">
+          <button class="show-more-btn" onclick="toggleShowAll()">
+            ${showAll ? '▲ Weniger anzeigen' : '▼ Alle ' + sorted.length + ' Videos anzeigen'}
+          </button>
+        </div>` : ''}
+    </div>`;
   }
 
-  // Daten laden
+  function render(data) {
+    document.getElementById('updateTime').textContent = fmtDate(data.last_updated);
+    const channelMap = buildChannelMap(data.videos);
+    document.getElementById('app').innerHTML =
+      renderKPIs(data, channelMap) +
+      renderChart(data.videos, data.total_views) +
+      renderChannels(data.videos, channelMap) +
+      renderVideos(data.videos, channelMap);
+  }
+
+  function setSort(key) {
+    currentSort = key;
+    showAll = false;
+    const sec = document.getElementById('videoSection');
+    if (sec) {
+      const channelMap = buildChannelMap(globalData.videos);
+      sec.outerHTML = renderVideos(globalData.videos, channelMap);
+    }
+  }
+
+  function toggleShowAll() {
+    showAll = !showAll;
+    const channelMap = buildChannelMap(globalData.videos);
+    const sec = document.getElementById('videoSection');
+    if (sec) sec.outerHTML = renderVideos(globalData.videos, channelMap);
+  }
+
   fetch(DATA_URL)
-    .then(r => {
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return r.json();
-    })
-    .then(render)
+    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .then(data => { globalData = data; render(data); })
     .catch(err => {
       document.getElementById('app').innerHTML = `
         <div class="state-box">
           <span class="icon">⚠️</span>
           <p>Daten konnten nicht geladen werden.<br>
           Stelle sicher, dass <code>data.json</code> im GitHub-Repo vorhanden ist<br>
-          und die DATA_URL in dieser Datei korrekt gesetzt ist.</p>
+          und die <code>DATA_URL</code> oben im Script korrekt gesetzt ist.</p>
         </div>`;
       console.error(err);
     });
 </script>
-
-<!-- Cookie Banner -->
-<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(30, 41, 59, 0.98); color: white; padding: 1.5rem; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-        <p style="margin: 0; flex: 1; min-width: 250px;">
-            Diese Website nutzt Google Analytics, um die Nutzung zu analysieren. 
-            
-        </p>
-        <div style="display: flex; gap: 1rem;">
-            <button onclick="acceptCookies()" style="background: #6366F1; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                Akzeptieren
-            </button>
-            <button onclick="declineCookies()" style="background: transparent; color: white; border: 2px solid white; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                Ablehnen
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Google Analytics (wird nur geladen wenn akzeptiert) -->
-<script>
-// Prüfe ob Cookies bereits akzeptiert/abgelehnt wurden
-window.addEventListener('load', function() {
-    const consent = localStorage.getItem('cookieConsent');
-    if (consent === 'accepted') {
-        loadGoogleAnalytics();
-    } else if (consent === null) {
-        // Zeige Banner nur wenn noch keine Entscheidung getroffen wurde
-        document.getElementById('cookie-banner').style.display = 'block';
-    }
-});
-
-function acceptCookies() {
-    localStorage.setItem('cookieConsent', 'accepted');
-    document.getElementById('cookie-banner').style.display = 'none';
-    loadGoogleAnalytics();
-}
-
-function declineCookies() {
-    localStorage.setItem('cookieConsent', 'declined');
-    document.getElementById('cookie-banner').style.display = 'none';
-}
-
-function loadGoogleAnalytics() {
-    // Ersetze G-XXXXXXXXXX mit deiner echten Measurement ID
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-1EP1EWMT4C';
-    document.head.appendChild(script1);
-    
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-1EP1EWMT4C');
-}
-</script>
-
 </body>
 </html>
