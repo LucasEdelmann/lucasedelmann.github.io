@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CutStats – Meine Videoschnitt-Statistiken</title>
+<title>CutStats – My Video Editing Stats</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
 
@@ -129,15 +129,47 @@
   .chart-section {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 16px; padding: 24px 24px 20px;
-    margin-bottom: 40px; animation: fadeUp 0.5s ease 0.15s both; overflow: hidden;
+    margin-bottom: 40px; animation: fadeUp 0.5s ease 0.15s both; overflow: visible;
   }
 
   .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .chart-title { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--muted); }
   .chart-total { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent); letter-spacing: 1px; }
-  .chart-wrap { position: relative; width: 100%; height: 140px; }
+
+  .chart-wrap { position: relative; width: 100%; height: 140px; overflow: visible; }
   svg.line-chart { width: 100%; height: 100%; overflow: visible; }
   .chart-label { font-size: 10px; fill: var(--muted); font-family: 'DM Sans', sans-serif; }
+
+  /* Tooltip */
+  .chart-tooltip {
+    position: absolute;
+    background: #1a1a20;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 12px;
+    color: var(--text);
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 10;
+    transform: translate(-50%, -110%);
+  }
+
+  .chart-tooltip.visible { opacity: 1; }
+  .chart-tooltip strong { color: var(--accent); font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.5px; }
+
+  /* hover dots – larger hit area */
+  .dot-hit {
+    cursor: crosshair;
+    fill: transparent;
+  }
+
+  .dot-hit:hover + .dot-vis,
+  .dot-vis.active {
+    r: 5;
+  }
 
   /* ── CHANNELS ── */
   .channels-section { margin-bottom: 40px; animation: fadeUp 0.5s ease 0.2s both; }
@@ -202,7 +234,6 @@
 
   .video-info h3 {
     font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 5px;
-    /* Wrap on mobile, 2-line clamp */
     word-break: break-word; overflow-wrap: break-word;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
@@ -257,12 +288,12 @@
         </div>
         <div class="logo-text">
           <h1>CUTSTATS</h1>
-          <p>Videocutter Dashboard</p>
+          <p>Video Editor Dashboard</p>
         </div>
       </div>
       <div class="last-update">
         <div class="live-dot"></div>
-        Aktualisiert: <span id="updateTime">–</span>
+        Updated: <span id="updateTime">–</span>
       </div>
     </div>
   </header>
@@ -270,19 +301,19 @@
   <div id="app">
     <div class="state-box">
       <div class="spinner"></div>
-      <p>Lade Daten…</p>
+      <p>Loading data…</p>
     </div>
   </div>
 
   <footer>
-    CUTSTATS &nbsp;·&nbsp; YouTube Data API v3 &nbsp;·&nbsp; Täglich automatisch aktualisiert
+    CUTSTATS &nbsp;·&nbsp; YouTube Data API v3 &nbsp;·&nbsp; Automatically updated every day
   </footer>
 </div>
 
 <script>
-  // ── KONFIGURATION ─────────────────────────────────────────────────────────
+  // ── CONFIG ───────────────────────────────────────────────────────────────
   const DATA_URL = 'https://raw.githubusercontent.com/LucasEdelmann/lucasedelmann.github.io/main/data.json';
-  // ──────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
 
   const PALETTE = ['#e8ff3c','#ff8c42','#2dce71','#4db8ff','#c77dff','#ff6b9d','#ffd166','#06d6a0'];
 
@@ -292,14 +323,16 @@
   const PAGE_SIZE = 5;
 
   function fmt(n) {
-    if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.', ',') + ' Mio.';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
     if (n >= 1e3) return Math.round(n / 1e3) + 'K';
-    return n.toLocaleString('de-DE');
+    return n.toLocaleString('en-US');
   }
+
+  function fmtFull(n) { return n.toLocaleString('en-US'); }
 
   function fmtDate(iso) {
     if (!iso) return '–';
-    return new Date(iso).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
+    return new Date(iso).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
   function buildChannelMap(videos) {
@@ -309,42 +342,48 @@
     return map;
   }
 
+  // ── KPIs ──
   function renderKPIs(data, channelMap) {
     const channelCount = Object.keys(channelMap).length;
     return `
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-label">Gesamtaufrufe</div>
+        <div class="stat-label">Total Views</div>
         <div class="stat-value">${fmt(data.total_views)}</div>
-        <div class="stat-sub">${data.total_views.toLocaleString('de-DE')} Klicks total</div>
+        <div class="stat-sub">${fmtFull(data.total_views)} total clicks</div>
       </div>
       <div class="stat-card" style="animation-delay:.05s">
-        <div class="stat-label">Videos geschnitten</div>
+        <div class="stat-label">Videos Edited</div>
         <div class="stat-value">${data.video_count}</div>
-        <div class="stat-sub">über ${channelCount} Kanal${channelCount !== 1 ? 'e' : ''}</div>
+        <div class="stat-sub">across ${channelCount} channel${channelCount !== 1 ? 's' : ''}</div>
       </div>
       <div class="stat-card" style="animation-delay:.1s">
-        <div class="stat-label">Ø pro Video</div>
+        <div class="stat-label">Avg. per Video</div>
         <div class="stat-value">${fmt(Math.round(data.total_views / data.video_count))}</div>
-        <div class="stat-sub">Aufrufe im Schnitt</div>
+        <div class="stat-sub">views on average</div>
       </div>
       <div class="stat-card" style="animation-delay:.15s">
-        <div class="stat-label">Gesamte Likes</div>
+        <div class="stat-label">Total Likes</div>
         <div class="stat-value">${fmt(data.total_likes)}</div>
-        <div class="stat-sub">über alle Videos</div>
+        <div class="stat-sub">across all videos</div>
       </div>
       <div class="stat-card" style="animation-delay:.2s">
-        <div class="stat-label">Kanäle</div>
+        <div class="stat-label">Channels</div>
         <div class="stat-value">${channelCount}</div>
-        <div class="stat-sub">verschiedene Kanäle</div>
+        <div class="stat-sub">different channels</div>
       </div>
     </div>`;
   }
 
+  // ── CHART with hover tooltips ──
   function renderChart(videos, totalViews) {
     const sorted = [...videos].sort((a, b) => new Date(a.published) - new Date(b.published));
     let cum = 0;
-    const points = sorted.map(v => { cum += v.views; return { label: v.published ? v.published.slice(0,7) : '', val: cum }; });
+    const points = sorted.map(v => ({
+      label: v.published ? v.published.slice(0, 7) : '',
+      title: v.title,
+      val: (cum += v.views)
+    }));
     if (points.length < 2) return '';
 
     const W = 900, H = 120, P = { t: 10, r: 10, b: 28, l: 10 };
@@ -363,13 +402,26 @@
       .map(p => `<text x="${px(p.i).toFixed(1)}" y="${H-4}" text-anchor="middle" class="chart-label">${p.label}</text>`)
       .join('');
 
+    // Interactive dots with data attributes for JS tooltip
+    const dots = points.map((p, i) => `
+      <circle
+        cx="${px(i).toFixed(1)}" cy="${py(p.val).toFixed(1)}" r="10"
+        fill="transparent" class="dot-hit"
+        data-val="${p.val}" data-label="${p.label}" data-pct="${((px(i)/W)*100).toFixed(2)}"
+        onmouseenter="showTip(event,this)" onmouseleave="hideTip()"
+      />
+      <circle cx="${px(i).toFixed(1)}" cy="${py(p.val).toFixed(1)}" r="3.5"
+        fill="#e8ff3c" pointer-events="none" class="dot-vis" id="dv${i}"/>
+    `).join('');
+
     return `
     <div class="chart-section">
       <div class="chart-header">
-        <div class="chart-title">GESAMTAUFRUFE KUMULIERT</div>
-        <div class="chart-total">${fmt(totalViews)} gesamt</div>
+        <div class="chart-title">CUMULATIVE TOTAL VIEWS</div>
+        <div class="chart-total">${fmt(totalViews)} total</div>
       </div>
-      <div class="chart-wrap">
+      <div class="chart-wrap" id="chartWrap">
+        <div class="chart-tooltip" id="chartTip"></div>
         <svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
           <defs>
             <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
@@ -377,18 +429,19 @@
               <stop offset="100%" stop-color="#e8ff3c" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <line x1="${P.l}" y1="${P.t}" x2="${P.l+iW}" y2="${P.t}" stroke="#222228" stroke-width="1"/>
-          <line x1="${P.l}" y1="${P.t+iH/2}" x2="${P.l+iW}" y2="${P.t+iH/2}" stroke="#222228" stroke-width="1"/>
-          <line x1="${P.l}" y1="${P.t+iH}" x2="${P.l+iW}" y2="${P.t+iH}" stroke="#222228" stroke-width="1"/>
+          <line x1="${P.l}" y1="${P.t}"       x2="${P.l+iW}" y2="${P.t}"       stroke="#222228" stroke-width="1"/>
+          <line x1="${P.l}" y1="${P.t+iH/2}"  x2="${P.l+iW}" y2="${P.t+iH/2}" stroke="#222228" stroke-width="1"/>
+          <line x1="${P.l}" y1="${P.t+iH}"    x2="${P.l+iW}" y2="${P.t+iH}"   stroke="#222228" stroke-width="1"/>
           <path d="${areaD}" fill="url(#ag)"/>
           <path d="${pathD}" fill="none" stroke="#e8ff3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-          ${points.map((p, i) => `<circle cx="${px(i).toFixed(1)}" cy="${py(p.val).toFixed(1)}" r="3" fill="#e8ff3c"/>`).join('')}
+          ${dots}
           ${labels}
         </svg>
       </div>
     </div>`;
   }
 
+  // ── CHANNELS ──
   function renderChannels(videos, channelMap) {
     const byChannel = {};
     videos.forEach(v => {
@@ -400,14 +453,14 @@
     const sorted = Object.entries(byChannel).sort((a, b) => b[1].views - a[1].views);
     return `
     <div class="channels-section">
-      <div class="section-header"><div class="section-title">NACH KANAL</div></div>
+      <div class="section-header"><div class="section-title">BY CHANNEL</div></div>
       <div class="channel-grid">
         ${sorted.map(([name, s]) => `
           <div class="channel-card">
             <div class="channel-dot" style="background:${channelMap[name]}"></div>
             <div class="channel-info">
               <div class="channel-name">${name}</div>
-              <div class="channel-meta">${s.count} Video${s.count!==1?'s':''} · ${fmt(s.likes)} Likes</div>
+              <div class="channel-meta">${s.count} video${s.count!==1?'s':''} · ${fmt(s.likes)} likes</div>
             </div>
             <div class="channel-views">${fmt(s.views)}</div>
           </div>`).join('')}
@@ -415,6 +468,7 @@
     </div>`;
   }
 
+  // ── VIDEOS ──
   function renderVideos(videos, channelMap) {
     const sorted = [...videos].sort((a, b) => {
       if (currentSort === 'views')   return b.views - a.views;
@@ -428,10 +482,10 @@
     const hasMore = sorted.length > PAGE_SIZE;
 
     const sortDefs = [
-      { key: 'views',   label: '↓ Aufrufe' },
+      { key: 'views',   label: '↓ Views' },
       { key: 'likes',   label: '↓ Likes' },
-      { key: 'date',    label: '↓ Datum' },
-      { key: 'channel', label: 'A–Z Kanal' },
+      { key: 'date',    label: '↓ Date' },
+      { key: 'channel', label: 'A–Z Channel' },
     ];
 
     return `
@@ -462,19 +516,20 @@
             </div>
             <div class="video-views">
               <div class="views-number">${fmt(currentSort==='likes'?(v.likes||0):v.views)}</div>
-              <div class="views-label">${currentSort==='likes'?'Likes':'Aufrufe'}</div>
+              <div class="views-label">${currentSort==='likes'?'Likes':'Views'}</div>
             </div>
           </a>`).join('')}
       </div>
       ${hasMore ? `
         <div class="show-more-wrap">
           <button class="show-more-btn" onclick="toggleShowAll()">
-            ${showAll ? '▲ Weniger anzeigen' : '▼ Alle ' + sorted.length + ' Videos anzeigen'}
+            ${showAll ? '▲ Show less' : '▼ Show all ' + sorted.length + ' videos'}
           </button>
         </div>` : ''}
     </div>`;
   }
 
+  // ── RENDER ──
   function render(data) {
     document.getElementById('updateTime').textContent = fmtDate(data.last_updated);
     const channelMap = buildChannelMap(data.videos);
@@ -485,23 +540,52 @@
       renderVideos(data.videos, channelMap);
   }
 
+  // ── TOOLTIP ──
+  function showTip(e, el) {
+    const tip = document.getElementById('chartTip');
+    const wrap = document.getElementById('chartWrap');
+    if (!tip || !wrap) return;
+    const val = parseInt(el.dataset.val);
+    const label = el.dataset.label;
+    tip.innerHTML = `<strong>${fmt(val)}</strong> views &nbsp;·&nbsp; ${label}`;
+    // Position relative to chart wrap
+    const wRect = wrap.getBoundingClientRect();
+    const eRect = el.getBoundingClientRect();
+    const x = eRect.left + eRect.width / 2 - wRect.left;
+    const y = eRect.top - wRect.top;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+    tip.classList.add('visible');
+    // Highlight dot
+    el.nextElementSibling && el.nextElementSibling.setAttribute('r', '5.5');
+  }
+
+  function hideTip() {
+    const tip = document.getElementById('chartTip');
+    if (tip) tip.classList.remove('visible');
+    // Reset all dots
+    document.querySelectorAll('.dot-vis').forEach(d => d.setAttribute('r', '3.5'));
+  }
+
+  // ── SORT / TOGGLE ──
   function setSort(key) {
     currentSort = key;
     showAll = false;
     const sec = document.getElementById('videoSection');
-    if (sec) {
-      const channelMap = buildChannelMap(globalData.videos);
-      sec.outerHTML = renderVideos(globalData.videos, channelMap);
+    if (sec && globalData) {
+      sec.outerHTML = renderVideos(globalData.videos, buildChannelMap(globalData.videos));
     }
   }
 
   function toggleShowAll() {
     showAll = !showAll;
-    const channelMap = buildChannelMap(globalData.videos);
     const sec = document.getElementById('videoSection');
-    if (sec) sec.outerHTML = renderVideos(globalData.videos, channelMap);
+    if (sec && globalData) {
+      sec.outerHTML = renderVideos(globalData.videos, buildChannelMap(globalData.videos));
+    }
   }
 
+  // ── LOAD ──
   fetch(DATA_URL)
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
     .then(data => { globalData = data; render(data); })
@@ -509,9 +593,9 @@
       document.getElementById('app').innerHTML = `
         <div class="state-box">
           <span class="icon">⚠️</span>
-          <p>Daten konnten nicht geladen werden.<br>
-          Stelle sicher, dass <code>data.json</code> im GitHub-Repo vorhanden ist<br>
-          und die <code>DATA_URL</code> oben im Script korrekt gesetzt ist.</p>
+          <p>Could not load data.<br>
+          Make sure <code>data.json</code> exists in your GitHub repo<br>
+          and that the <code>DATA_URL</code> at the top of the script is correct.</p>
         </div>`;
       console.error(err);
     });
