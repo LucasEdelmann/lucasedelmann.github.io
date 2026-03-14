@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-13T20:39:33Z",
-  "total_views": 12479,
-  "total_likes": 457,
+  "last_updated": "2026-03-14T06:52:33Z",
+  "total_views": 14046,
+  "total_likes": 501,
   "video_count": 11,
   "videos": [
     {
@@ -9,7 +9,7 @@
       "title": "10X statt Chatbot: So nutzt du Antigravity richtig",
       "channel": "Mike Mildenberger",
       "published": "2026-01-17",
-      "views": 5409,
+      "views": 5418,
       "likes": 189
     },
     {
@@ -17,31 +17,31 @@
       "title": "Claude Code baut ein Vermieter-Portal in 37 Min 🤯",
       "channel": "Mike Mildenberger",
       "published": "2026-03-11",
-      "views": 3765,
-      "likes": 94
-    },
-    {
-      "id": "BMeng7nkRYs",
-      "title": "Infisical: a Complete Guide to Secrets Management",
-      "channel": "Infisical",
-      "published": "2026-01-30",
-      "views": 1658,
-      "likes": 37
+      "views": 3953,
+      "likes": 98
     },
     {
       "id": "VzY_wj3qvbs",
       "title": "Claude Code Geheimtipp: So nutzt du den Profi-Website-Check! 🚀",
       "channel": "Mike Mildenberger",
       "published": "2026-03-13",
-      "views": 416,
-      "likes": 30
+      "views": 1751,
+      "likes": 70
+    },
+    {
+      "id": "BMeng7nkRYs",
+      "title": "Infisical: a Complete Guide to Secrets Management",
+      "channel": "Infisical",
+      "published": "2026-01-30",
+      "views": 1670,
+      "likes": 37
     },
     {
       "id": "9PQmd_aoRWA",
       "title": "GitHub Actions Secrets Management with Infisical",
       "channel": "Infisical",
       "published": "2026-02-03",
-      "views": 285,
+      "views": 290,
       "likes": 19
     },
     {
@@ -49,7 +49,7 @@
       "title": "External Secrets Operator Explained (ESO) | Kubernetes Secrets Made Simple",
       "channel": "Infisical",
       "published": "2026-03-03",
-      "views": 234,
+      "views": 235,
       "likes": 8
     },
     {
@@ -57,7 +57,7 @@
       "title": "Secrets Management in Kubernetes: Foundations",
       "channel": "Infisical",
       "published": "2026-02-09",
-      "views": 208,
+      "views": 210,
       "likes": 16
     },
     {
@@ -81,7 +81,7 @@
       "title": "Infisical in 60 Seconds — The Complete Security Platform",
       "channel": "Infisical",
       "published": "2026-03-10",
-      "views": 104,
+      "views": 116,
       "likes": 20
     },
     {
@@ -89,7 +89,7 @@
       "title": "Kubernetes Secrets: Architecture & Best Practices",
       "channel": "Infisical",
       "published": "2026-03-08",
-      "views": 97,
+      "views": 100,
       "likes": 19
     }
   ]
