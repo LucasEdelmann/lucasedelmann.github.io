@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-14T06:52:33Z",
-  "total_views": 14046,
-  "total_likes": 501,
+  "last_updated": "2026-03-15T07:01:27Z",
+  "total_views": 15696,
+  "total_likes": 537,
   "video_count": 11,
   "videos": [
     {
@@ -9,7 +9,7 @@
       "title": "10X statt Chatbot: So nutzt du Antigravity richtig",
       "channel": "Mike Mildenberger",
       "published": "2026-01-17",
-      "views": 5418,
+      "views": 5445,
       "likes": 189
     },
     {
@@ -17,23 +17,23 @@
       "title": "Claude Code baut ein Vermieter-Portal in 37 Min 🤯",
       "channel": "Mike Mildenberger",
       "published": "2026-03-11",
-      "views": 3953,
-      "likes": 98
+      "views": 4344,
+      "likes": 104
     },
     {
       "id": "VzY_wj3qvbs",
       "title": "Claude Code Geheimtipp: So nutzt du den Profi-Website-Check! 🚀",
       "channel": "Mike Mildenberger",
       "published": "2026-03-13",
-      "views": 1751,
-      "likes": 70
+      "views": 2939,
+      "likes": 96
     },
     {
       "id": "BMeng7nkRYs",
       "title": "Infisical: a Complete Guide to Secrets Management",
       "channel": "Infisical",
       "published": "2026-01-30",
-      "views": 1670,
+      "views": 1694,
       "likes": 37
     },
     {
@@ -41,7 +41,7 @@
       "title": "GitHub Actions Secrets Management with Infisical",
       "channel": "Infisical",
       "published": "2026-02-03",
-      "views": 290,
+      "views": 294,
       "likes": 19
     },
     {
@@ -49,15 +49,15 @@
       "title": "External Secrets Operator Explained (ESO) | Kubernetes Secrets Made Simple",
       "channel": "Infisical",
       "published": "2026-03-03",
-      "views": 235,
-      "likes": 8
+      "views": 237,
+      "likes": 9
     },
     {
       "id": "QO9zoCgnXBI",
       "title": "Secrets Management in Kubernetes: Foundations",
       "channel": "Infisical",
       "published": "2026-02-09",
-      "views": 210,
+      "views": 212,
       "likes": 16
     },
     {
@@ -65,8 +65,8 @@
       "title": "Sealed Secrets Explained: Secure Kubernetes Secrets the Right Way",
       "channel": "Infisical",
       "published": "2026-02-18",
-      "views": 156,
-      "likes": 13
+      "views": 159,
+      "likes": 14
     },
     {
       "id": "8PBH2pOirtY",
@@ -81,16 +81,16 @@
       "title": "Infisical in 60 Seconds — The Complete Security Platform",
       "channel": "Infisical",
       "published": "2026-03-10",
-      "views": 116,
-      "likes": 20
+      "views": 123,
+      "likes": 21
     },
     {
       "id": "O-O6pIFrhwE",
       "title": "Kubernetes Secrets: Architecture & Best Practices",
       "channel": "Infisical",
       "published": "2026-03-08",
-      "views": 100,
-      "likes": 19
+      "views": 102,
+      "likes": 20
     }
   ]
 }
